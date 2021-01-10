@@ -1,3 +1,13 @@
+@tailwind base;
+
+/* Start purging... */
+@tailwnd components;
+/* Stop purging */
+
+/* Start purging... */
+@tailwind utilities;
+/* Stop purging */
+
 html,
 body {
   padding: 0;
