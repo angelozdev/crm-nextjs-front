@@ -1,13 +1,11 @@
-import Head from "next/head";
-import Layout from "../components/Layout";
-import Sidebar from "../components/Sidebar";
-import styles from "../styles/Home.module.css";
+import Layout from '@components/Layout'
 
-export default function Home() {
+function Home() {
   return (
     <Layout>
-      <h1 className="text-2xl text-center">Hola mundo</h1>
-      <Sidebar />
+      <h1 className="text-2xl">Clients</h1>
     </Layout>
-  );
+  )
 }
+
+export default Home

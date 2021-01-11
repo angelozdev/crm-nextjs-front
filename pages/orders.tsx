@@ -1,11 +1,11 @@
 import Layout from '@components/Layout'
 
-const me = () => {
+function Orders() {
   return (
     <Layout>
-      <h1 className="text-2xl">Angelo</h1>
+      <h1 className="text-2xl">Orders</h1>
     </Layout>
   )
 }
 
-export default me
+export default Orders
