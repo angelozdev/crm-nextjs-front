@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply w-full block py-2 px-3 border border-white-100 rounded-lg mb-4;
+  @apply w-full block py-2 px-3 border  rounded-lg mb-4;
 }
 
 /* These styles will not be purged */

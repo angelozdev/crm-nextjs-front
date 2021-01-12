@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 /* Components */
-import Sidebar from '@components/Sidebar'
+import { Sidebar } from '@components/index'
 import routes from '../constants/routes'
 
 /* Types */

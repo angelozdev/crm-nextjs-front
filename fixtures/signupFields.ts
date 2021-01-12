@@ -1,39 +1,95 @@
-import { InputHTMLAttributes } from 'react'
+import { Field } from 'types'
 
-interface SignupField extends InputHTMLAttributes<HTMLInputElement> {
-  label: string
-}
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-const signupFields: SignupField[] = [
+const signupFields: Field[] = [
   {
     type: 'text',
     placeholder: 'Enter your first name',
     name: 'first_name',
-    label: 'First name'
+    rules: {
+      required: {
+        value: true,
+        message: 'This field can not be blank.'
+      },
+      minLength: {
+        value: 5,
+        message: 'This field must be at least 5 characters long.'
+      },
+      maxLength: {
+        value: 30,
+        message: 'This field must have a maximum of 30 characters.'
+      }
+    },
+    autoComplete: 'first-name'
   },
   {
     type: 'text',
     placeholder: 'Enter your last name',
     name: 'last_name',
-    label: 'Last name'
+    rules: {
+      required: {
+        value: true,
+        message: 'This field can not be blank.'
+      },
+      minLength: {
+        value: 5,
+        message: 'This field must be at least 5 characters long.'
+      },
+      maxLength: {
+        value: 30,
+        message: 'This field must have a maximum of 30 characters.'
+      }
+    },
+    autoComplete: 'last-name'
   },
   {
     type: 'email',
     placeholder: 'Enter your email',
     name: 'email',
-    label: 'Email'
+    rules: {
+      required: {
+        value: true,
+        message: 'This field can not be blank.'
+      },
+      pattern: {
+        value: emailRegex,
+        message: 'This email is invalid.'
+      }
+    },
+    autoComplete: 'email'
   },
   {
     type: 'password',
     placeholder: 'Enter your password',
     name: 'password',
-    label: 'Password'
+    rules: {
+      required: {
+        value: true,
+        message: 'This field can not be blank.'
+      },
+      minLength: {
+        value: 5,
+        message: 'This field must be at least 5 characters long.'
+      }
+    },
+    autoComplete: 'current-password'
   },
   {
     type: 'password',
     placeholder: 'Confirm your password',
     name: 'confirm_password',
-    label: 'Confirm password'
+    rules: {
+      required: {
+        value: true,
+        message: 'This field can not be blank.'
+      },
+      minLength: {
+        value: 5,
+        message: 'This field must be at least 5 characters long.'
+      }
+    },
+    autoComplete: 'confirm-password'
   }
 ]
 
