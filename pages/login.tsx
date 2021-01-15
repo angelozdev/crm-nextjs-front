@@ -1,6 +1,8 @@
 /* Components */
-import { Layout } from '@components/index'
 import * as React from 'react'
+import { Layout } from '@components/index'
+
+/* Hooks */
 import { useForm } from 'react-hook-form'
 
 /* Constants */
@@ -10,30 +12,59 @@ import routes from 'constants/routes'
 import Link from 'next/link'
 import loginFields from 'fixtures/loginFields'
 
+/* Apollo */
+import { gql, useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
+
 /* Types */
 interface Inputs {
   email: string
   password: string
 }
 
+/* Queries */
+const LOGIN = gql`
+  mutation login($email: String!, $password: String!) {
+    login(password: $password, email: $email) {
+      accessToken
+    }
+  }
+`
+
 function Login() {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    clearErrors,
-    formState: { isSubmitting }
-  } = useForm<Inputs>({ mode: 'onBlur' })
+  // States
+  const router = useRouter()
+
+  // Graphql
+  const [logIn, { loading, error }] = useMutation(LOGIN)
+
+  // Form
+  const { register, handleSubmit, errors, clearErrors } = useForm<Inputs>({
+    mode: 'onBlur'
+  })
 
   /* Methods */
-  const onSubmit = async (e: Inputs): Promise<Inputs> => {
+  const onSubmit = async (e: Inputs): Promise<void> => {
     clearErrors()
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(e)
-      }, 1000)
+    return logIn({
+      variables: {
+        email: e.email,
+        password: e.password
+      }
     })
+      .then(({ data }) => {
+        // Guardar en el local storage
+        const accessToken = data.login.accessToken
+
+        if (!accessToken) throw new Error('Missing access token')
+        localStorage.setItem('TOKEN', accessToken)
+
+        router.replace(routes.HOME)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   return (
@@ -54,7 +85,7 @@ function Login() {
                   </span>
                 )}
                 <input
-                  disabled={isSubmitting}
+                  disabled={loading}
                   type={type}
                   className={`disabled:opacity-50 outline-none btn bg-transparent ${
                     errors[name] ? 'border-red-500' : ''
@@ -68,18 +99,20 @@ function Login() {
             )
           })}
 
+          {error && <span className="message error">{error.message}</span>}
           <p className="mt-24 mb-4 text-center text-gray-400">
             Don't have an account?{' '}
             <Link href={routes.SIGNUP}>
               <a className="text-white-100">Register</a>
             </Link>
           </p>
+
           <button
-            disabled={isSubmitting}
+            disabled={loading}
             type="submit"
             className="bg-white-100 btn text-black-900 disabled:opacity-50"
           >
-            {isSubmitting ? 'Loading...' : 'Login'}
+            {loading ? 'Loading...' : 'Login'}
           </button>
         </form>
       </div>

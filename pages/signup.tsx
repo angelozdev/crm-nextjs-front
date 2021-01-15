@@ -9,10 +9,12 @@ import signupFields from 'fixtures/signupFields'
 
 /* Next */
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 /* Hooks */
 import { useForm } from 'react-hook-form'
 import * as React from 'react'
+import { useMutation, gql } from '@apollo/client'
 
 /* Types */
 interface Inputs {
@@ -23,21 +25,36 @@ interface Inputs {
   last_name: string
 }
 
-function Login() {
+/* Queries */
+const CREATE_NEW_USER = gql`
+  mutation createUser($input: createNewUserFields!) {
+    createUser(createNewUserFields: $input) {
+      first_name
+      email
+    }
+  }
+`
+
+function Signup() {
+  // States
+  const router = useRouter()
+
+  // React-hook-form
   const {
     register,
     handleSubmit,
     clearErrors,
     errors,
-    setError,
-    formState: { isSubmitting, touched }
+    setError
   } = useForm<Inputs>({ mode: 'onBlur' })
+  const [createNewUser, { data, loading, error }] = useMutation(CREATE_NEW_USER)
 
   /* Methods */
-  const onSubmit = async (e: Inputs): Promise<Inputs> => {
+  const onSubmit = async (inputs: Inputs): Promise<void> => {
     clearErrors()
+    const { confirm_password, password, email, first_name, last_name } = inputs
 
-    if (e.confirm_password !== e.password) {
+    if (confirm_password !== password) {
       setError('confirm_password', {
         message: 'The passwords are not the same.',
         shouldFocus: true
@@ -46,11 +63,23 @@ function Login() {
       return null
     }
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(e)
-      }, 1000)
+    return createNewUser({
+      variables: {
+        input: {
+          first_name,
+          last_name,
+          email,
+          password
+        }
+      }
     })
+      .then(({ data }) => {
+        console.log(data)
+        router.push(routes.LOGIN)
+      })
+      .catch((err) => {
+        console.log(err.graphQLErrors)
+      })
   }
 
   return (
@@ -70,7 +99,7 @@ function Login() {
                 )}
                 <input
                   type={type}
-                  disabled={isSubmitting}
+                  disabled={loading}
                   className={`disabled:opacity-50 outline-none btn bg-transparent ${
                     errors[name] ? 'border-red-500' : ''
                   }`}
@@ -82,6 +111,7 @@ function Login() {
               </div>
             )
           })}
+          {error && <span className="message error">{error.message}</span>}
 
           <p className="mt-8 mb-4 text-center text-gray-400">
             I already have an{' '}
@@ -91,10 +121,10 @@ function Login() {
             !
           </p>
           <button
-            disabled={isSubmitting}
+            disabled={loading}
             className="bg-white-100 btn text-black-900 disabled:opacity-50"
           >
-            Sign in
+            {loading ? 'Loading...' : 'Sign up'}
           </button>
         </form>
       </div>
@@ -102,4 +132,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Signup
