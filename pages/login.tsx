@@ -40,7 +40,7 @@ function Login() {
   // Graphql
   const [logIn, { loading, error }] = useMutation<Login>(LOGIN)
 
-  // Form
+  // React-hook-form
   const { register, handleSubmit, errors, clearErrors } = useForm<Inputs>({
     mode: 'onBlur'
   })

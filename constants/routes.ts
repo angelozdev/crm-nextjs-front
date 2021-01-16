@@ -3,7 +3,8 @@ enum routes {
   SIGNUP = '/signup',
   ORDERS = '/orders',
   PRODUCTS = '/products',
-  HOME = '/'
+  HOME = '/',
+  NEW_CLIENT = '/newclient'
 }
 
 export default routes

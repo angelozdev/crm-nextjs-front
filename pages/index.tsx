@@ -1,6 +1,6 @@
 /* Components */
 import * as React from 'react'
-import Layout from '@components/Layout'
+import { ClientRows, Layout } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -12,9 +12,8 @@ import { gql, useQuery } from '@apollo/client'
 import routes from 'constants/routes'
 
 /* Types */
-import { Client } from 'types'
-
-type GetMyClients = { getMyClients: Client[] }
+import { GetMyClients } from 'types'
+import Link from 'next/link'
 
 /* Queries */
 const GET_MY_CLIENTS = gql`
@@ -47,33 +46,33 @@ function Home(): JSX.Element {
     return null
   }
 
-  const { getMyClients } = data
-  const rows = getMyClients.map((client) => {
-    const { id, first_name, last_name, company, email } = client
-    return (
-      <tr key={id}>
-        <td className="p-2 border">
-          {first_name} {last_name}
-        </td>
-        <td className="p-2 border">{company}</td>
-        <td className="p-2 border">{email}</td>
-      </tr>
-    )
-  })
+  //
+  const { getMyClients: clients } = data
+  const thereAreClients = clients.length > 0
 
   return (
     <Layout>
       <h1 className="text-2xl mb-5">Clients</h1>
-      <table className="table-auto w-full border max-w-2xl">
-        <thead>
-          <tr className="dark:bg-black-900 bg-gray-100">
-            <th className="p-2 border">Fullname</th>
-            <th className="p-2 border">Company</th>
-            <th className="p-2 border">Email</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
+      <Link href={routes.NEW_CLIENT}>
+        <a className="btn inline-block mb-5">New Client</a>
+      </Link>
+      {thereAreClients ? (
+        <table className="table-auto w-full border max-w-2xl">
+          <thead>
+            <tr className="dark:bg-black-900 bg-gray-100">
+              <th className="p-2 border">Fullname</th>
+              <th className="p-2 border">Company</th>
+              <th className="p-2 border">Email</th>
+              <th className="p-2 border">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ClientRows clients={clients} />
+          </tbody>
+        </table>
+      ) : (
+        <p>You are not clients for now.</p>
+      )}
     </Layout>
   )
 }

@@ -47,7 +47,7 @@ function Signup() {
     errors,
     setError
   } = useForm<Inputs>({ mode: 'onBlur' })
-  const [createNewUser, { data, loading, error }] = useMutation(CREATE_NEW_USER)
+  const [createNewUser, { loading, error }] = useMutation(CREATE_NEW_USER)
 
   /* Methods */
   const onSubmit = async (inputs: Inputs): Promise<void> => {

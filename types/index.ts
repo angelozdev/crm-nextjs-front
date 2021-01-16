@@ -1,5 +1,7 @@
 import { RegisterOptions } from 'react-hook-form'
 
+export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 export interface Field {
   name: string
   type: string
@@ -10,6 +12,7 @@ export interface Field {
 
 export interface Client {
   id: string
+  phone_number: number
   first_name: string
   last_name: string
   company: string
@@ -30,3 +33,5 @@ export interface User {
   createdAt: Date
   updatedAt: Date
 }
+
+export type GetMyClients = { getMyClients: Client[] }
