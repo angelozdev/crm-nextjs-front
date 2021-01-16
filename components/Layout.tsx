@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 /* Components */
 import { Sidebar } from '@components/index'
 import routes from '../constants/routes'
+import Header from './Header'
 
 /* Types */
 interface Props {
@@ -28,8 +29,9 @@ function Layout({ children }: Props): JSX.Element {
     content = (
       <div className="flex">
         <Sidebar />
-        <main className="bg-white w-2/3 xl:w-4/5 p-5 dark:bg-black-800">
-          {children}
+        <main className="bg-white w-2/3 xl:w-4/5 dark:bg-black-800">
+          <Header />
+          <div className="p-5">{children}</div>
         </main>
       </div>
     )

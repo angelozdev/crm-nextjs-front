@@ -22,6 +22,8 @@ interface Inputs {
   password: string
 }
 
+type Login = { login: { accessToken: string } }
+
 /* Queries */
 const LOGIN = gql`
   mutation login($email: String!, $password: String!) {
@@ -32,11 +34,11 @@ const LOGIN = gql`
 `
 
 function Login() {
-  // States
+  // Routing
   const router = useRouter()
 
   // Graphql
-  const [logIn, { loading, error }] = useMutation(LOGIN)
+  const [logIn, { loading, error }] = useMutation<Login>(LOGIN)
 
   // Form
   const { register, handleSubmit, errors, clearErrors } = useForm<Inputs>({
@@ -55,12 +57,12 @@ function Login() {
     })
       .then(({ data }) => {
         // Guardar en el local storage
-        const accessToken = data.login.accessToken
+        const { accessToken } = data.login
 
         if (!accessToken) throw new Error('Missing access token')
         localStorage.setItem('TOKEN', accessToken)
 
-        router.replace(routes.HOME)
+        router.push(routes.HOME)
       })
       .catch((err) => {
         console.error(err)
@@ -87,7 +89,7 @@ function Login() {
                 <input
                   disabled={loading}
                   type={type}
-                  className={`disabled:opacity-50 outline-none btn bg-transparent ${
+                  className={`disabled:opacity-50 outline-none mb-2 btn btn-full bg-transparent ${
                     errors[name] ? 'border-red-500' : ''
                   }`}
                   placeholder={placeholder}
@@ -103,14 +105,14 @@ function Login() {
           <p className="mt-24 mb-4 text-center text-gray-400">
             Don't have an account?{' '}
             <Link href={routes.SIGNUP}>
-              <a className="text-white-100">Register</a>
+              <a className="dark:text-white-100 font-semibold">Register</a>
             </Link>
           </p>
 
           <button
             disabled={loading}
             type="submit"
-            className="bg-white-100 btn text-black-900 disabled:opacity-50"
+            className="bg-white-100 btn btn-full text-black-900 disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Login'}
           </button>

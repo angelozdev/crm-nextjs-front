@@ -100,7 +100,7 @@ function Signup() {
                 <input
                   type={type}
                   disabled={loading}
-                  className={`disabled:opacity-50 outline-none btn bg-transparent ${
+                  className={`disabled:opacity-50 outline-none btn btn-full mb-2 bg-transparent ${
                     errors[name] ? 'border-red-500' : ''
                   }`}
                   placeholder={placeholder}
@@ -116,13 +116,13 @@ function Signup() {
           <p className="mt-8 mb-4 text-center text-gray-400">
             I already have an{' '}
             <Link href={routes.LOGIN}>
-              <a className="text-white-100">account</a>
+              <a className="dark:text-white-100 font-semibold">account</a>
             </Link>
             !
           </p>
           <button
             disabled={loading}
-            className="bg-white-100 btn text-black-900 disabled:opacity-50"
+            className="bg-white-100 btn btn-full text-black-900 disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Sign up'}
           </button>

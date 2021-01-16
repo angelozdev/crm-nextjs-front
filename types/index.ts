@@ -7,3 +7,26 @@ export interface Field {
   rules: RegisterOptions
   autoComplete: string
 }
+
+export interface Client {
+  id: string
+  first_name: string
+  last_name: string
+  company: string
+  email: string
+  seller: {
+    id: string
+    first_name: string
+    createdAt: number
+  }
+}
+
+export interface User {
+  id: string
+  first_name: string
+  last_name: string
+  company: string
+  email: string
+  createdAt: Date
+  updatedAt: Date
+}
