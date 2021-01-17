@@ -57,13 +57,14 @@ function Home(): JSX.Element {
         <a className="btn inline-block mb-5">New Client</a>
       </Link>
       {thereAreClients ? (
-        <table className="table-auto w-full border max-w-2xl">
+        <table className="table-auto w-full border">
           <thead>
             <tr className="dark:bg-black-900 bg-gray-100">
               <th className="p-2 border">Fullname</th>
               <th className="p-2 border">Company</th>
               <th className="p-2 border">Email</th>
               <th className="p-2 border">Delete</th>
+              <th className="p-2 border">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -71,7 +72,7 @@ function Home(): JSX.Element {
           </tbody>
         </table>
       ) : (
-        <p>You are not clients for now.</p>
+        <p>You don't have clients for now.</p>
       )}
     </Layout>
   )

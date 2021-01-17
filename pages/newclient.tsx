@@ -10,7 +10,12 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import { ApolloCache, gql, useMutation } from '@apollo/client'
+import {
+  ApolloCache,
+  gql,
+  MutationUpdaterFn,
+  useMutation
+} from '@apollo/client'
 
 /* Types */
 import { Client, GetMyClients } from 'types'
@@ -42,10 +47,10 @@ function NewClient() {
   })
 
   // Update cache after create new user
-  function updateCache(
-    cache: ApolloCache<CreateNewClient>,
+  const updateCache: MutationUpdaterFn<CreateNewClient> = (
+    cache,
     { data: { createClient } }
-  ) {
+  ) => {
     const query = gql`
       query getMyClients {
         getMyClients {
