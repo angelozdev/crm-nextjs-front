@@ -6,9 +6,17 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 /* Graphql */
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
+/* Components */
+import { Edit, Trash } from './icons'
+
+/* Next */
+import { useRouter } from 'next/router'
+
+/* Constants */
+import routes from 'constants/routes'
+
 /* Types */
 import { Client, GetMyClients } from 'types'
-import { Edit, Trash } from './icons'
 
 type DeleteClientById = { deleteClientById: Client }
 
@@ -30,7 +38,7 @@ function ClientRow({
   id
 }: Partial<Client>): JSX.Element {
   // Clean cache
-  const updateCache: MutationUpdaterFn<DeleteClientById> = (cache) => {
+  const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
     const query = gql`
       query getMyClients {
         getMyClients {
@@ -54,9 +62,13 @@ function ClientRow({
     })
   }
 
+  // Routing
+  const router = useRouter()
+
+  // Mutations
   const [deleteClientById] = useMutation<DeleteClientById>(
     DELETE_CLIENT_BY_ID,
-    { update: updateCache }
+    { update: updateCacheOnDelete }
   )
 
   // Methods
@@ -93,7 +105,10 @@ function ClientRow({
   }
 
   const handleEdit = () => {
-    console.log(id)
+    router.push({
+      pathname: routes.EDIT_CLIENT,
+      query: { id }
+    })
   }
 
   return (
