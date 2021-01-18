@@ -83,11 +83,11 @@ const createClientFields: Field[] = [
         message: 'This field must be at least 7 characters long.'
       },
       maxLength: {
-        value: 15,
-        message: 'This field must have a maximum of 7 digits.'
+        value: 30,
+        message: 'This field must have a maximum of 30 digits.'
       }
     },
-    type: 'tel'
+    type: 'text'
   }
 ]
 

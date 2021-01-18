@@ -9,11 +9,15 @@ import { useRouter } from 'next/router'
 /* React hook form */
 import { useForm } from 'react-hook-form'
 
+/* Swal */
+import Swal, { SweetAlertOptions } from 'sweetalert2'
+
 /* Fixtures */
 import createClientFields from 'fixtures/createClientFields'
 
 /* Graphql */
 import { gql, useMutation, useQuery } from '@apollo/client'
+
 /* Constants */
 import routes from 'constants/routes'
 
@@ -26,6 +30,7 @@ type UpdateClientById = { updateClientById: Client }
 const GET_CLIENT_BY_ID = gql`
   query getClientById($id: String!) {
     getClientById(id: $id) {
+      id
       first_name
       last_name
       email
@@ -39,9 +44,10 @@ const UPDATE_CLIENT_BY_ID = gql`
   mutation updateClientById($id: String!, $input: UpdateClientFields!) {
     updateClientById(id: $id, input: $input) {
       id
+      first_name
       last_name
       company
-      first_name
+      email
     }
   }
 `
@@ -58,7 +64,7 @@ function EditClient() {
   ] = useMutation<UpdateClientById>(UPDATE_CLIENT_BY_ID)
 
   // Queries
-  const { data, error, loading: getDataLoading } = useQuery<GetClientById>(
+  const { data, error, loading: gettingData } = useQuery<GetClientById>(
     GET_CLIENT_BY_ID,
     {
       variables: { id }
@@ -69,7 +75,7 @@ function EditClient() {
   const onSubmit = async (inputs: Client): Promise<void> => {
     const { first_name, last_name, phone_number, company, email } = inputs
 
-    return updateClient({
+    return await updateClient({
       variables: {
         id,
         input: {
@@ -81,9 +87,21 @@ function EditClient() {
         }
       }
     })
+      .then(({ data }) => {
+        console.log(data)
+        return router.push(routes.HOME)
+      })
       .then(() => {
-        console.log('Updated')
-        router.push(routes.HOME)
+        const options: SweetAlertOptions = {
+          title: 'Updated!',
+          icon: 'success',
+          text: `Your client was updated successfully.`,
+          confirmButtonColor: 'rgb(16, 185, 129)',
+          iconColor: 'rgb(16, 185, 129)',
+          background: 'rgb(242, 242, 242)',
+          confirmButtonText: 'Okay'
+        }
+        Swal.fire(options)
       })
       .catch((err) => {
         console.error(err)
@@ -102,7 +120,7 @@ function EditClient() {
 
   // Condifionals
   // TODO: Spinner
-  if (getDataLoading) return null
+  if (gettingData) return null
 
   if (!data && !data.getClientById) {
     router.push(routes.NEW_CLIENT)

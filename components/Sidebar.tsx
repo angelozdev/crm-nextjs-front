@@ -17,7 +17,7 @@ function Sidebar() {
             {navigation.map((item, index) => (
               <li
                 key={index}
-                className={`py-1 px-2 mb-2 border ${
+                className={`p-2 mb-2 border ${
                   pathname === item.link
                     ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-black-800'
                     : 'border-transparent'
