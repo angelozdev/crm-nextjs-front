@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout } from '@components'
+import { Layout, Spinner } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -10,12 +10,7 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import {
-  ApolloCache,
-  gql,
-  MutationUpdaterFn,
-  useMutation
-} from '@apollo/client'
+import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
 /* Types */
 import { Client, GetMyClients } from 'types'
@@ -103,6 +98,9 @@ function NewClient() {
         console.error(err)
       })
   }
+
+  // Conditionals
+  if (loading) return <Spinner />
 
   // JSX Elements
   const fileds = createClientFields.map((field, index) => {

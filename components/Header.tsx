@@ -13,6 +13,9 @@ import routes from 'constants/routes'
 /* Types */
 import { User } from 'types'
 
+/* Components */
+import Spinner from './Spinner'
+
 type GetUserLogged = { getUserLogged: User }
 
 const GET_USER_LOGGED = gql`
@@ -37,10 +40,8 @@ function Header(): JSX.Element {
     router.push(routes.LOGIN)
   }
 
-  // TODO: Spinner
-  if (loading) {
-    return null
-  }
+  // Conditionals
+  if (loading) return <Spinner />
 
   // Redirect
   if (!data) {

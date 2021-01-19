@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout } from '@components'
+import { Layout, Spinner } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -120,7 +120,7 @@ function EditClient() {
 
   // Condifionals
   // TODO: Spinner
-  if (gettingData) return null
+  if (gettingData) return <Spinner />
 
   if (!data && !data.getClientById) {
     router.push(routes.NEW_CLIENT)

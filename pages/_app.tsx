@@ -1,5 +1,6 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import '../styles/globals.css'
+import '../styles/spinner.css'
 
 /* Apollo and GraphQL */
 import { ApolloProvider } from '@apollo/client'

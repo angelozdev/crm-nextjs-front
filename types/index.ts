@@ -24,6 +24,15 @@ export interface Client {
   }
 }
 
+export interface Product {
+  id: string
+  name: string
+  quantity: number
+  price: number
+  createdAt: Date
+  updatedAt: Date
+}
+
 export interface User {
   id: string
   first_name: string

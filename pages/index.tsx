@@ -1,9 +1,12 @@
 /* Components */
 import * as React from 'react'
-import { ClientRows, Layout } from '@components'
+
+/* Components */
+import { ClientRows, Layout, Spinner } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 /* Apollo */
 import { gql, useQuery } from '@apollo/client'
@@ -13,7 +16,6 @@ import routes from 'constants/routes'
 
 /* Types */
 import { GetMyClients } from 'types'
-import Link from 'next/link'
 
 /* Queries */
 const GET_MY_CLIENTS = gql`
@@ -36,9 +38,7 @@ function Home(): JSX.Element {
   const router = useRouter()
 
   // TODO: Spinner
-  if (loading) {
-    return null
-  }
+  if (loading) return <Spinner />
 
   // Redirect
   if (!data) {
@@ -48,7 +48,7 @@ function Home(): JSX.Element {
 
   //
   const { getMyClients: clients } = data
-  const thereAreClients = clients.length > 0
+  const areThereClients = clients.length > 0
 
   return (
     <Layout>
@@ -56,7 +56,7 @@ function Home(): JSX.Element {
       <Link href={routes.NEW_CLIENT}>
         <a className="btn inline-block mb-5">New Client</a>
       </Link>
-      {thereAreClients ? (
+      {areThereClients ? (
         <table className="table-auto w-full border">
           <thead>
             <tr className="dark:bg-black-900 bg-gray-100">
