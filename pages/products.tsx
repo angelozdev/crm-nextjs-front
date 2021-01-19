@@ -11,10 +11,9 @@ import { useRouter } from 'next/router'
 import routes from 'constants/routes'
 
 /* Types */
-import { Product } from 'types'
+import { GetProducts, Product } from 'types'
 
 /* Types and Queries */
-type GetProducts = { getProducts: Product[] }
 
 const GET_ALL_PRODUCTS = gql`
   query getAllProducts {
@@ -30,7 +29,7 @@ const GET_ALL_PRODUCTS = gql`
 
 function Orders() {
   // Queries
-  const { data, loading, error } = useQuery<GetProducts>(GET_ALL_PRODUCTS)
+  const { data, loading } = useQuery<GetProducts>(GET_ALL_PRODUCTS)
 
   // Routing
   const router = useRouter()

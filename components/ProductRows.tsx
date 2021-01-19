@@ -14,11 +14,12 @@ interface Props {
 function ProductRows({ products }: Props) {
   return (
     <React.Fragment>
-      {products.map((product, index) => {
-        const { name, price, quantity } = product
+      {products.map((product) => {
+        const { name, price, quantity, id } = product
         return (
           <ProductRow
-            key={index}
+            id={id}
+            key={id}
             price={price}
             name={name}
             quantity={quantity}

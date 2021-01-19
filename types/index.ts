@@ -44,3 +44,5 @@ export interface User {
 }
 
 export type GetMyClients = { getMyClients: Client[] }
+
+export type GetProducts = { getProducts: Product[] }
