@@ -5,7 +5,7 @@ import Layout from '@components/Layout'
 import routes from 'constants/routes'
 
 /* Fixtures */
-import signupFields from 'fixtures/signupFields'
+import { signupFields } from 'fixtures/fileds'
 
 /* Next */
 import Link from 'next/link'

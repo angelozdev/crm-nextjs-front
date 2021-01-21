@@ -12,10 +12,14 @@ import { useForm } from 'react-hook-form'
 /* Graphql */
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
+/* Fixtures */
+import { createClientFields } from 'fixtures/fileds'
+
+/* Constants */
+import routes from 'constants/routes'
+
 /* Types */
 import { Client, GetMyClients } from 'types'
-import createClientFields from 'fixtures/createClientFields'
-import routes from 'constants/routes'
 
 type CreateNewClient = {
   createClient: Client

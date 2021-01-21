@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Fixtures */
-import createClientFields from 'fixtures/createClientFields'
+import { createClientFields } from 'fixtures/fileds'
 
 /* Graphql */
 import { gql, useMutation, useQuery } from '@apollo/client'

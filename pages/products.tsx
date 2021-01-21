@@ -6,6 +6,7 @@ import { gql, useQuery } from '@apollo/client'
 
 /* Next */
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 /* Contants */
 import routes from 'constants/routes'
@@ -48,9 +49,9 @@ function Orders() {
   return (
     <Layout>
       <h1 className="text-2xl mb-5">Products</h1>
-      {/* <Link href={routes.NEW_CLIENT}>
-        <a className="btn inline-block mb-5">New Client</a>
-      </Link> */}
+      <Link href={routes.NEW_PRODUCT}>
+        <a className="btn inline-block mb-5">New Product</a>
+      </Link>
       {areThereProucts ? (
         <table className="table-auto w-full border">
           <thead>

@@ -10,7 +10,7 @@ import routes from 'constants/routes'
 
 /* Next */
 import Link from 'next/link'
-import loginFields from 'fixtures/loginFields'
+import { loginFields } from 'fixtures/fileds'
 
 /* Apollo */
 import { gql, useMutation } from '@apollo/client'

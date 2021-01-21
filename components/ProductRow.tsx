@@ -10,7 +10,7 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
 /* Types */
-import { GetMyClients, GetProducts, Product } from 'types'
+import { GetProducts, Product } from 'types'
 
 /* Queries and types */
 type DeleteClientById = { deleteProductById: Product }
