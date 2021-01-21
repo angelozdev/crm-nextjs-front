@@ -63,7 +63,7 @@ function NewClient() {
     `
     const { getMyClients } = cache.readQuery<GetMyClients>({ query })
 
-    cache.writeQuery({
+    cache.writeQuery<GetMyClients>({
       query,
       data: {
         getMyClients: [...getMyClients, createClient]

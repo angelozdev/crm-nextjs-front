@@ -52,28 +52,30 @@ function Home(): JSX.Element {
 
   return (
     <Layout>
-      <h1 className="text-2xl mb-5">Clients</h1>
-      <Link href={routes.NEW_CLIENT}>
-        <a className="btn inline-block mb-5">New Client</a>
-      </Link>
-      {areThereClients ? (
-        <table className="table-auto w-full border">
-          <thead>
-            <tr className="dark:bg-black-900 bg-gray-100">
-              <th className="p-2 border">Fullname</th>
-              <th className="p-2 border">Company</th>
-              <th className="p-2 border">Email</th>
-              <th className="p-2 border">Delete</th>
-              <th className="p-2 border">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ClientRows clients={clients} />
-          </tbody>
-        </table>
-      ) : (
-        <p>You don't have clients for now.</p>
-      )}
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl mb-5">Clients</h1>
+        <Link href={routes.NEW_CLIENT}>
+          <a className="btn inline-block mb-5">New Client</a>
+        </Link>
+        {areThereClients ? (
+          <table className="table-auto w-full border">
+            <thead>
+              <tr className="dark:bg-black-900 bg-gray-100">
+                <th className="p-2 border">Fullname</th>
+                <th className="p-2 border">Company</th>
+                <th className="p-2 border">Email</th>
+                <th className="p-2 border">Delete</th>
+                <th className="p-2 border">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ClientRows clients={clients} />
+            </tbody>
+          </table>
+        ) : (
+          <p>You don't have clients for now.</p>
+        )}
+      </div>
     </Layout>
   )
 }

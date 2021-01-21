@@ -12,7 +12,7 @@ import Link from 'next/link'
 import routes from 'constants/routes'
 
 /* Types */
-import { GetProducts, Product } from 'types'
+import { GetProducts } from 'types'
 
 /* Types and Queries */
 
@@ -23,7 +23,6 @@ const GET_ALL_PRODUCTS = gql`
       name
       quantity
       price
-      createdAt
     }
   }
 `
@@ -48,28 +47,30 @@ function Orders() {
 
   return (
     <Layout>
-      <h1 className="text-2xl mb-5">Products</h1>
-      <Link href={routes.NEW_PRODUCT}>
-        <a className="btn inline-block mb-5">New Product</a>
-      </Link>
-      {areThereProucts ? (
-        <table className="table-auto w-full border">
-          <thead>
-            <tr className="dark:bg-black-900 bg-gray-100">
-              <th className="p-2 border">Name</th>
-              <th className="p-2 border">Quantity</th>
-              <th className="p-2 border">Price</th>
-              <th className="p-2 border">Delete</th>
-              <th className="p-2 border">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ProductRows products={products} />
-          </tbody>
-        </table>
-      ) : (
-        <p>You don't have clients for now.</p>
-      )}
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl mb-5">Products</h1>
+        <Link href={routes.NEW_PRODUCT}>
+          <a className="btn inline-block mb-5">New Product</a>
+        </Link>
+        {areThereProucts ? (
+          <table className="table-auto w-full  border">
+            <thead>
+              <tr className="dark:bg-black-900 bg-gray-100">
+                <th className="p-2 border">Name</th>
+                <th className="p-2 border">Quantity</th>
+                <th className="p-2 border">Price</th>
+                <th className="p-2 border">Delete</th>
+                <th className="p-2 border">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ProductRows products={products} />
+            </tbody>
+          </table>
+        ) : (
+          <p>You don't have clients for now.</p>
+        )}
+      </div>
     </Layout>
   )
 }

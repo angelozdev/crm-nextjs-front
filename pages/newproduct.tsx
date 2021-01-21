@@ -13,16 +13,23 @@ import { createProduct } from 'fixtures/fileds'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import { gql, useMutation } from '@apollo/client'
+import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
 /* Constants */
 import routes from 'constants/routes'
 
 /* Types */
-interface Product {
+import { Product, GetProducts } from 'types'
+
+/* Types */
+interface Fields {
   name: string
   price: number
   quantity: number
+}
+
+type CreateProduct = {
+  createProduct: Product
 }
 
 /* Queries */
@@ -42,12 +49,41 @@ function NewProduct() {
   const router = useRouter()
 
   // React hook form
-  const { register, errors, handleSubmit } = useForm<Product>({
+  const { register, errors, handleSubmit } = useForm<Fields>({
     mode: 'onBlur'
   })
 
+  // Update cache
+  const updateCache: MutationUpdaterFn<CreateProduct> = (
+    cache,
+    { data: { createProduct: createdProduct } }
+  ) => {
+    const query = gql`
+      query getAllProducts {
+        getProducts {
+          id
+          name
+          quantity
+          price
+        }
+      }
+    `
+    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
+    console.log(products)
+
+    cache.writeQuery<GetProducts>({
+      query,
+      data: {
+        getProducts: [...products, createdProduct]
+      }
+    })
+  }
+
   // Mutations
-  const [createNewProduct, { loading, error }] = useMutation(CREATE_NEW_PRODUCT)
+  const [createNewProduct, { loading, error }] = useMutation<CreateProduct>(
+    CREATE_NEW_PRODUCT,
+    { update: updateCache }
+  )
 
   // JSX Elements
   const fileds = createProduct.map((field, index) => {
@@ -73,7 +109,7 @@ function NewProduct() {
   })
 
   // Handlers
-  const onSubmit = async (inputs: Product) => {
+  const onSubmit = async (inputs: Fields) => {
     console.log(inputs)
 
     const { name, price, quantity } = inputs
@@ -87,7 +123,7 @@ function NewProduct() {
     })
       .then(({ data }) => {
         console.log(data)
-        return router.push(routes.PRODUCTS)
+        router.push(routes.PRODUCTS)
       })
       .catch(console.error)
   }

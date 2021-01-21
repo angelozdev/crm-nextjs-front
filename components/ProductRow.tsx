@@ -44,7 +44,6 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
           name
           quantity
           price
-          createdAt
         }
       }
     `
@@ -70,7 +69,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
     const options: SweetAlertOptions = {
       title: 'Are you sure?',
       icon: 'warning',
-      text: `You will delete ${name}`,
+      text: `You will delete: ${name}`,
       showCancelButton: true,
       cancelButtonColor: 'rgb(239, 68, 68)',
       confirmButtonColor: 'rgb(16, 185, 129)',
