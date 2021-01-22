@@ -43,8 +43,6 @@ function Orders() {
   const { getProducts: products } = data
   const areThereProucts = products.length > 0
 
-  console.log(data)
-
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">

@@ -24,6 +24,7 @@ import routes from 'constants/routes'
 /* Types */
 import { Client } from 'types'
 
+/* Types */
 type GetClientById = { getClientById: Client }
 type UpdateClientById = { updateClientById: Client }
 
@@ -119,7 +120,6 @@ function EditClient() {
   }, [data])
 
   // Condifionals
-  // TODO: Spinner
   if (gettingData) return <Spinner />
 
   if (!data && !data.getClientById) {
@@ -128,7 +128,7 @@ function EditClient() {
   }
 
   // JSX
-  const fileds = createClientFields.map((field, index) => {
+  const fields = createClientFields.map((field, index) => {
     const { name, autoComplete, placeholder, rules, type } = field
     return (
       <div key={`${name}-${index}`} className="mb-4">
@@ -157,7 +157,7 @@ function EditClient() {
 
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {fileds}
+            {fields}
             {error && <span className="message error">{error.message}</span>}
 
             <button

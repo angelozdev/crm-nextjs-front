@@ -12,6 +12,12 @@ import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 /* Types */
 import { GetProducts, Product } from 'types'
 
+/* Next */
+import { useRouter } from 'next/router'
+
+/* Contants */
+import routes from 'constants/routes'
+
 /* Queries and types */
 type DeleteClientById = { deleteProductById: Product }
 const DELETE_PRODUCT_BY_ID = gql`
@@ -34,6 +40,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
   })
     .format(price)
     .replace('.00', '')
+  const router = useRouter()
 
   // clean cache on delete product
   const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
@@ -98,7 +105,10 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
   }
 
   const handleEdit = () => {
-    console.log(id)
+    router.push({
+      pathname: routes.EDIT_PRODUCT,
+      query: { id }
+    })
   }
 
   return (
