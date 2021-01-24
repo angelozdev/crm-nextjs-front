@@ -113,10 +113,12 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
 
   return (
     <tr>
-      <td className="p-2 border">{name}</td>
-      <td className="p-2 border text-center">{quantity}</td>
-      <td className="p-2 border text-center">{formatedPrice}</td>
-      <td className="p-2 border">
+      <td className="border p-4 dark:border-dark-5">{name}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">{quantity}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">
+        {formatedPrice}
+      </td>
+      <td className="border p-4 dark:border-dark-5">
         <button
           onClick={handleDelete}
           className="w-full text-red-500 flex items-center justify-center"
@@ -124,7 +126,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
           <Trash className="w-6" />
         </button>
       </td>
-      <td className="p-2 border">
+      <td className="border p-4 dark:border-dark-5">
         <button
           onClick={handleEdit}
           className="w-full text-green-500 flex items-center justify-center"

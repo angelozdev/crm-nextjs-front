@@ -55,17 +55,29 @@ function Home(): JSX.Element {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-2xl mb-5">Clients</h1>
         <Link href={routes.NEW_CLIENT}>
-          <a className="btn inline-block mb-5">New Client</a>
+          <a className="btn primary inline-block mb-5">
+            <span className="mx-4">New Client</span>
+          </a>
         </Link>
         {areThereClients ? (
-          <table className="table-auto w-full border">
+          <table className="table p-4 dark:bg-black-800 bg-white w-full shadow-md rounded-lg border">
             <thead>
               <tr className="dark:bg-black-900 bg-gray-100">
-                <th className="p-2 border">Fullname</th>
-                <th className="p-2 border">Company</th>
-                <th className="p-2 border">Email</th>
-                <th className="p-2 border">Delete</th>
-                <th className="p-2 border">Edit</th>
+                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                  Fullname
+                </th>
+                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                  Company
+                </th>
+                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                  Email
+                </th>
+                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                  Delete
+                </th>
+                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                  Edit
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -113,12 +113,12 @@ function ClientRow({
 
   return (
     <tr>
-      <td className="p-2 border">
+      <td className="border p-4 dark:border-dark-5">
         {first_name} {last_name}
       </td>
-      <td className="p-2 border">{company}</td>
-      <td className="p-2 border">{email}</td>
-      <td className="p-2 border">
+      <td className="border p-4 dark:border-dark-5">{company}</td>
+      <td className="border p-4 dark:border-dark-5">{email}</td>
+      <td className="border p-4 dark:border-dark-5">
         <button
           onClick={handleDelete}
           className="w-full text-red-500 flex items-center justify-center"
@@ -126,7 +126,7 @@ function ClientRow({
           <Trash className="w-6" />
         </button>
       </td>
-      <td className="p-2 border">
+      <td className="border p-4 dark:border-dark-5">
         <button
           onClick={handleEdit}
           className="w-full text-green-500 flex items-center justify-center"

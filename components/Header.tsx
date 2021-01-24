@@ -54,13 +54,13 @@ function Header(): JSX.Element {
   } = data
 
   return (
-    <header className="border-b p-5">
+    <header className="border-b border-blue-800 shadow-md p-5">
       <div className="flex justify-between items-center">
         <h1>
           Welcome, {first_name} {last_name}!
         </h1>
-        <button onClick={handleClick} className="btn inline-block">
-          Logout
+        <button onClick={handleClick} className="btn primary">
+          <span className="mx-4">Logout</span>
         </button>
       </div>
     </header>

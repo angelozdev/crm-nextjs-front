@@ -14,7 +14,7 @@ interface Props {
 function ProductRows({ products }: Props) {
   return (
     <React.Fragment>
-      {products.map((product) => {
+      {products.map((product, index) => {
         const { name, price, quantity, id } = product
         return (
           <ProductRow

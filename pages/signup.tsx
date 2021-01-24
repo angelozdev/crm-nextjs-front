@@ -122,7 +122,7 @@ function Signup() {
           </p>
           <button
             disabled={loading}
-            className="bg-white-100 btn btn-full text-black-900 disabled:opacity-50"
+            className="primary btn btn-full disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Sign up'}
           </button>

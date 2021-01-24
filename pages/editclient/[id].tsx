@@ -164,7 +164,7 @@ function EditClient() {
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={editingClient}
-              className="bg-white-100 mt-8 btn btn-full text-black-900 disabled:opacity-50"
+              className="mt-8 btn btn-full primary disabled:opacity-50"
             >
               {editingClient ? 'Creating client...' : 'Edit Client'}
             </button>

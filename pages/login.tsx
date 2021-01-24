@@ -112,7 +112,7 @@ function Login() {
           <button
             disabled={loading}
             type="submit"
-            className="bg-white-100 btn btn-full text-black-900 disabled:opacity-50"
+            className="primary btn btn-full disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Login'}
           </button>

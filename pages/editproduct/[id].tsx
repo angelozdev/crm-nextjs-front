@@ -152,7 +152,7 @@ function EditProduct() {
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={updating}
-              className="bg-white-100 mt-8 btn btn-full text-black-900 disabled:opacity-50"
+              className="mt-8 btn primary btn-full disabled:opacity-50"
             >
               {updating ? 'Creating client...' : 'Edit Client'}
             </button>
