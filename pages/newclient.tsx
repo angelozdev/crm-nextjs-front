@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout } from '@components'
+import { Layout, Spinner } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -10,17 +10,16 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import {
-  ApolloCache,
-  gql,
-  MutationUpdaterFn,
-  useMutation
-} from '@apollo/client'
+import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+
+/* Fixtures */
+import { createClientFields } from 'fixtures/fileds'
+
+/* Constants */
+import routes from 'constants/routes'
 
 /* Types */
 import { Client, GetMyClients } from 'types'
-import createClientFields from 'fixtures/createClientFields'
-import routes from 'constants/routes'
 
 type CreateNewClient = {
   createClient: Client
@@ -64,7 +63,7 @@ function NewClient() {
     `
     const { getMyClients } = cache.readQuery<GetMyClients>({ query })
 
-    cache.writeQuery({
+    cache.writeQuery<GetMyClients>({
       query,
       data: {
         getMyClients: [...getMyClients, createClient]
@@ -104,6 +103,9 @@ function NewClient() {
       })
   }
 
+  // Conditionals
+  if (loading) return <Spinner />
+
   // JSX Elements
   const fileds = createClientFields.map((field, index) => {
     const { name, autoComplete, placeholder, rules, type } = field
@@ -139,7 +141,7 @@ function NewClient() {
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={loading}
-              className="bg-white-100 mt-8 btn btn-full text-black-900 disabled:opacity-50"
+              className="mt-8 btn btn-full primary disabled:opacity-50"
             >
               {loading ? 'Creating client...' : 'Create Client'}
             </button>

@@ -4,7 +4,11 @@
 @tailwind utilities;
 
 .btn {
-  @apply transition hover:bg-black-900 hover:shadow-lg py-2 px-4 border rounded-lg;
+  @apply transition-all duration-200 hover:shadow-md p-2 border  rounded-lg;
+}
+
+.btn.primary {
+  @apply bg-blue-800 text-white border-blue-800 hover:bg-blue-900;
 }
 
 .btn.btn-full {

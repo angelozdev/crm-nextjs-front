@@ -29,8 +29,8 @@ function Layout({ children }: Props): JSX.Element {
     content = (
       <div className="flex">
         <Sidebar />
-        <main className="bg-white w-2/3 xl:w-4/5 dark:bg-black-800">
-          <Header />
+        <main className="bg-white w-full dark:bg-black-800">
+          {/* <Header /> */}
           <div className="p-5">{children}</div>
         </main>
       </div>

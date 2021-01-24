@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout } from '@components'
+import { Layout, Spinner } from '@components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Fixtures */
-import createClientFields from 'fixtures/createClientFields'
+import { createClientFields } from 'fixtures/fileds'
 
 /* Graphql */
 import { gql, useMutation, useQuery } from '@apollo/client'
@@ -24,6 +24,7 @@ import routes from 'constants/routes'
 /* Types */
 import { Client } from 'types'
 
+/* Types */
 type GetClientById = { getClientById: Client }
 type UpdateClientById = { updateClientById: Client }
 
@@ -119,8 +120,7 @@ function EditClient() {
   }, [data])
 
   // Condifionals
-  // TODO: Spinner
-  if (gettingData) return null
+  if (gettingData) return <Spinner />
 
   if (!data && !data.getClientById) {
     router.push(routes.NEW_CLIENT)
@@ -128,7 +128,7 @@ function EditClient() {
   }
 
   // JSX
-  const fileds = createClientFields.map((field, index) => {
+  const fields = createClientFields.map((field, index) => {
     const { name, autoComplete, placeholder, rules, type } = field
     return (
       <div key={`${name}-${index}`} className="mb-4">
@@ -157,16 +157,16 @@ function EditClient() {
 
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {fileds}
+            {fields}
             {error && <span className="message error">{error.message}</span>}
 
             <button
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={editingClient}
-              className="bg-white-100 mt-8 btn btn-full text-black-900 disabled:opacity-50"
+              className="mt-8 btn btn-full primary disabled:opacity-50"
             >
-              {editingClient ? 'Creating client...' : 'Edit Client'}
+              {editingClient ? 'Creating client...' : 'Save'}
             </button>
           </form>
         </div>

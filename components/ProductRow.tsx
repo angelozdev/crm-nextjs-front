@@ -1,82 +1,82 @@
 import * as React from 'react'
 
-/* SweetAlert */
+/* Components */
+import { Edit, Trash } from './icons'
+
+/* Swal */
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Graphql */
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
-/* Components */
-import { Edit, Trash } from './icons'
+/* Types */
+import { GetProducts, Product } from 'types'
 
 /* Next */
 import { useRouter } from 'next/router'
 
-/* Constants */
+/* Contants */
 import routes from 'constants/routes'
 
-/* Types */
-import { Client, GetMyClients } from 'types'
-
-type DeleteClientById = { deleteClientById: Client }
-
-const DELETE_CLIENT_BY_ID = gql`
-  mutation deleteClientById($id: String!) {
-    deleteClientById(id: $id) {
+/* Queries and types */
+type DeleteClientById = { deleteProductById: Product }
+const DELETE_PRODUCT_BY_ID = gql`
+  mutation deleteProductById($id: String!) {
+    deleteProductById(id: $id) {
       id
-      first_name
-      email
+      name
+      quantity
+      price
     }
   }
 `
 
-function ClientRow({
-  first_name,
-  last_name,
-  company,
-  email,
-  id
-}: Partial<Client>): JSX.Element {
-  // Clean cache
+function ProductRow({ name, quantity, price, id }: Partial<Product>) {
+  // States
+  const formatedPrice = new Intl.NumberFormat('en-EN', {
+    style: 'currency',
+    currency: 'USD',
+    currencySign: 'accounting'
+  })
+    .format(price)
+    .replace('.00', '')
+  const router = useRouter()
+
+  // clean cache on delete product
   const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
     const query = gql`
-      query getMyClients {
-        getMyClients {
+      query getAllProducts {
+        getProducts {
           id
-          first_name
-          last_name
-          company
-          email
+          name
+          quantity
+          price
         }
       }
     `
-    const { getMyClients: clients } = cache.readQuery<GetMyClients>({ query })
+    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
 
     cache.writeQuery({
       query,
       data: {
-        getMyClients: clients.filter((client) => {
+        getProducts: products.filter((client) => {
           return client.id !== id
         })
       }
     })
   }
 
-  // Routing
-  const router = useRouter()
-
   // Mutations
-  const [deleteClientById] = useMutation<DeleteClientById>(
-    DELETE_CLIENT_BY_ID,
-    { update: updateCacheOnDelete }
-  )
+  const [deleteProductById] = useMutation(DELETE_PRODUCT_BY_ID, {
+    update: updateCacheOnDelete
+  })
 
-  // Methods
-  const handleDelete = async (): Promise<void> => {
+  // Handle methods
+  const handleDelete = () => {
     const options: SweetAlertOptions = {
       title: 'Are you sure?',
       icon: 'warning',
-      text: `You will delete this client: ${first_name} ${last_name}`,
+      text: `You will delete: ${name}`,
       showCancelButton: true,
       cancelButtonColor: 'rgb(239, 68, 68)',
       confirmButtonColor: 'rgb(16, 185, 129)',
@@ -89,10 +89,10 @@ function ClientRow({
       .then(({ isConfirmed }) => {
         if (!isConfirmed) return
 
-        deleteClientById({ variables: { id } }).then(() => {
+        deleteProductById({ variables: { id } }).then(() => {
           const options: SweetAlertOptions = {
             title: 'Deleted!',
-            text: `Your client has been deleted.`,
+            text: `This product has been deleted.`,
             icon: 'success',
             iconColor: 'rgb(16, 185, 129)'
           }
@@ -106,18 +106,18 @@ function ClientRow({
 
   const handleEdit = () => {
     router.push({
-      pathname: routes.EDIT_CLIENT,
+      pathname: routes.EDIT_PRODUCT,
       query: { id }
     })
   }
 
   return (
     <tr>
-      <td className="border p-4 dark:border-dark-5">
-        {first_name} {last_name}
+      <td className="border p-4 dark:border-dark-5">{name}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">{quantity}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">
+        {formatedPrice}
       </td>
-      <td className="border p-4 dark:border-dark-5">{company}</td>
-      <td className="border p-4 dark:border-dark-5">{email}</td>
       <td className="border p-4 dark:border-dark-5">
         <button
           onClick={handleDelete}
@@ -138,4 +138,4 @@ function ClientRow({
   )
 }
 
-export default ClientRow
+export default ProductRow

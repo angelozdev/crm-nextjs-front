@@ -5,7 +5,7 @@ import Layout from '@components/Layout'
 import routes from 'constants/routes'
 
 /* Fixtures */
-import signupFields from 'fixtures/signupFields'
+import { signupFields } from 'fixtures/fileds'
 
 /* Next */
 import Link from 'next/link'
@@ -122,7 +122,7 @@ function Signup() {
           </p>
           <button
             disabled={loading}
-            className="bg-white-100 btn btn-full text-black-900 disabled:opacity-50"
+            className="primary btn btn-full disabled:opacity-50"
           >
             {loading ? 'Loading...' : 'Sign up'}
           </button>
