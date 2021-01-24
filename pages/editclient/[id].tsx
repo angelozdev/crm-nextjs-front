@@ -166,7 +166,7 @@ function EditClient() {
               disabled={editingClient}
               className="mt-8 btn btn-full primary disabled:opacity-50"
             >
-              {editingClient ? 'Creating client...' : 'Edit Client'}
+              {editingClient ? 'Creating client...' : 'Save'}
             </button>
           </form>
         </div>

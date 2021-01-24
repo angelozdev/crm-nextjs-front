@@ -154,7 +154,7 @@ function EditProduct() {
               disabled={updating}
               className="mt-8 btn primary btn-full disabled:opacity-50"
             >
-              {updating ? 'Creating client...' : 'Edit Client'}
+              {updating ? 'Creating client...' : 'Save'}
             </button>
           </form>
         </div>
