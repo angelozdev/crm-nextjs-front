@@ -2,7 +2,7 @@ import * as React from 'react'
 
 /* Components */
 import { Layout } from 'components'
-import { SelectClient } from '@components/orders'
+import { AddProduct, SelectClient } from '@components/orders'
 
 /* Main Component */
 function NewOrder() {
@@ -13,6 +13,7 @@ function NewOrder() {
         <div className="my-8">
           <form>
             <SelectClient />
+            <AddProduct />
           </form>
         </div>
       </div>

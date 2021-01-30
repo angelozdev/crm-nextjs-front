@@ -7,14 +7,14 @@ import Select, { Styles } from 'react-select'
 import { gql, useQuery } from '@apollo/client'
 
 /* Types */
-import { Client, GetMyClients } from 'types'
+import { GetProducts, Product } from 'types'
 
 /* Context */
 import OrderContext from 'context/orders/context'
-import { selectClient } from 'context/orders/actions'
+import { addProduct } from 'context/orders/actions'
 
 // Types
-type CustomStyles = Partial<Styles<Partial<Client>, false>>
+type CustomStyles = Partial<Styles<Partial<Product>, false>>
 
 // Styles
 const customStyles: CustomStyles = {
@@ -45,50 +45,50 @@ const customStyles: CustomStyles = {
 }
 
 /* Queries */
-const GET_MY_CLIENTS = gql`
-  query getMyClients {
-    getMyClients {
+const GET_ALL_PRODUCTS = gql`
+  query getAllProducts {
+    getProducts {
       id
-      first_name
-      last_name
-      company
-      email
+      name
+      quantity
+      price
     }
   }
 `
 
-function SelectClient(): JSX.Element {
+function AddProduct(): JSX.Element {
   // Context
   const { dispatch } = React.useContext(OrderContext)
 
   // Queries
-  const { data } = useQuery<GetMyClients>(GET_MY_CLIENTS)
+  const { data } = useQuery<GetProducts>(GET_ALL_PRODUCTS)
 
   // Methods
-  const onChangeClient = (client: Client): void => {
-    dispatch(selectClient(client))
+  const onChangeProducts = (products: Product[]): void => {
+    dispatch(addProduct(products))
   }
 
-  const clients = data?.getMyClients
+  const products = data?.getProducts
 
   return (
     <React.Fragment>
       <Select
         className="mb-4"
-        onChange={onChangeClient}
+        isMulti={true}
+        onChange={onChangeProducts}
         name="sabores"
-        getOptionLabel={(client) => {
-          const name = `${client.first_name} ${client.last_name}`
+        getOptionLabel={(product) => {
+          const name = `${product.name}`
           return name
         }}
-        getOptionValue={(client) => client.id}
+        getOptionValue={(product) => product.id}
         styles={customStyles}
-        options={clients}
-        placeholder="Select the client"
-        noOptionsMessage={() => 'Client not found'}
+        options={products}
+        placeholder="Select the product"
+        noOptionsMessage={() => 'Product not found'}
       />
     </React.Fragment>
   )
 }
 
-export default SelectClient
+export default AddProduct
