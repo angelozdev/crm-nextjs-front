@@ -1,7 +1,9 @@
 import { RegisterOptions } from 'react-hook-form'
 
+/* HELPERS */
 export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+/* INTERFACES */
 export interface Field extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string
   type: string
@@ -43,6 +45,6 @@ export interface User {
   updatedAt: Date
 }
 
+/* TYPES */
 export type GetMyClients = { getMyClients: Client[] }
-
 export type GetProducts = { getProducts: Product[] }

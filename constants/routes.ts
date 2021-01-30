@@ -7,7 +7,8 @@ enum routes {
   NEW_CLIENT = '/newclient',
   EDIT_CLIENT = '/editclient/[id]',
   NEW_PRODUCT = '/newproduct',
-  EDIT_PRODUCT = '/editproduct/[id]'
+  EDIT_PRODUCT = '/editproduct/[id]',
+  NEW_ORDER = '/neworder'
 }
 
 export default routes
