@@ -25,7 +25,7 @@ import { Product, GetProducts } from 'types'
 interface Fields {
   name: string
   price: number
-  quantity: number
+  stock: number
 }
 
 type CreateProduct = {
@@ -34,10 +34,10 @@ type CreateProduct = {
 
 /* Queries */
 const CREATE_NEW_PRODUCT = gql`
-  mutation createNewProduct($name: String!, $price: Float!, $quantity: Int!) {
-    createProduct(name: $name, quantity: $quantity, price: $price) {
+  mutation createNewProduct($name: String!, $price: Float!, $stock: Int!) {
+    createProduct(name: $name, stock: $stock, price: $price) {
       name
-      quantity
+      stock
       price
       id
     }
@@ -63,7 +63,7 @@ function NewProduct() {
         getProducts {
           id
           name
-          quantity
+          stock
           price
         }
       }
@@ -112,13 +112,13 @@ function NewProduct() {
   const onSubmit = async (inputs: Fields) => {
     console.log(inputs)
 
-    const { name, price, quantity } = inputs
+    const { name, price, stock } = inputs
 
     return createNewProduct({
       variables: {
         name,
         price: Number(price),
-        quantity: Number(quantity)
+        stock: Number(stock)
       }
     })
       .then(({ data }) => {

@@ -21,7 +21,7 @@ const GET_ALL_PRODUCTS = gql`
     getProducts {
       id
       name
-      quantity
+      stock
       price
     }
   }
@@ -60,7 +60,7 @@ function Orders() {
                   Name
                 </th>
                 <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Quantity
+                  Stock
                 </th>
                 <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
                   Price

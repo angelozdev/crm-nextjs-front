@@ -263,7 +263,7 @@ export const createProduct: Field[] = [
   },
   {
     autoComplete: 'off',
-    name: 'quantity',
+    name: 'stock',
     rules: {
       required: {
         value: true,
@@ -271,7 +271,7 @@ export const createProduct: Field[] = [
       }
     },
     type: 'number',
-    placeholder: "Enter the product's quantity",
+    placeholder: "Enter the product's stcok",
     min: '1',
     step: '1'
   }

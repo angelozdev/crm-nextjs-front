@@ -28,7 +28,7 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 type GetProductById = { getProductById: Product }
 interface Fields {
   name: string
-  quantity: number
+  stock: number
   price: number
 }
 
@@ -38,7 +38,7 @@ const GET_PRODUCT_BY_ID = gql`
     getProductById(id: $id) {
       id
       name
-      quantity
+      stock
       price
     }
   }
@@ -50,7 +50,7 @@ const UPDATE_PRODUCT = gql`
       id
       name
       price
-      quantity
+      stock
     }
   }
 `
@@ -108,13 +108,13 @@ function EditProduct() {
 
   // Handlers
   const onSubmit = async (inputs: Fields): Promise<void> => {
-    const { name, quantity, price } = inputs
+    const { name, stock, price } = inputs
     return updateProduct({
       variables: {
         id,
         input: {
           name,
-          quantity: Number(quantity),
+          stock: Number(stock),
           price: Number(price)
         }
       }
@@ -154,7 +154,7 @@ function EditProduct() {
               disabled={updating}
               className="mt-8 btn primary btn-full disabled:opacity-50"
             >
-              {updating ? 'Creating client...' : 'Save'}
+              {updating ? 'Updating client...' : 'Save'}
             </button>
           </form>
         </div>

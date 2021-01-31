@@ -11,7 +11,7 @@ interface Props {
 
 /* Main Component */
 function SelectedProductItem({ product }: Props) {
-  const { name, price, quantity } = product
+  const { name, price, stock } = product
   return (
     <div className="mb-2 flex justify-between items-center">
       <div className="w-3/5">
@@ -24,7 +24,7 @@ function SelectedProductItem({ product }: Props) {
           className="outline-none mb-2 btn btn-full bg-transparent"
           type="number"
           min="1"
-          max={quantity}
+          max={stock}
           defaultValue="1"
           placeholder="Quantity"
         />

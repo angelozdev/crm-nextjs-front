@@ -28,13 +28,13 @@ const DELETE_PRODUCT_BY_ID = gql`
     deleteProductById(id: $id) {
       id
       name
-      quantity
+      stock
       price
     }
   }
 `
 
-function ProductRow({ name, quantity, price, id }: Partial<Product>) {
+function ProductRow({ name, stock, price, id }: Partial<Product>) {
   // Routing
   const router = useRouter()
 
@@ -45,7 +45,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
         getProducts {
           id
           name
-          quantity
+          stock
           price
         }
       }
@@ -110,7 +110,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
   return (
     <tr>
       <td className="border p-4 dark:border-dark-5">{name}</td>
-      <td className="border p-4 dark:border-dark-5 text-center">{quantity}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">{stock}</td>
       <td className="border p-4 dark:border-dark-5 text-center">
         {formatedPrice(price)}
       </td>

@@ -5,7 +5,8 @@ import { Layout } from 'components'
 import {
   AddProduct,
   SelectClient,
-  SelectedProductList
+  SelectedProductList,
+  Total
 } from 'components/orders'
 
 /* Main Component */
@@ -19,6 +20,7 @@ function NewOrder() {
             <SelectClient />
             <AddProduct />
             <SelectedProductList />
+            <Total />
           </form>
         </div>
       </div>

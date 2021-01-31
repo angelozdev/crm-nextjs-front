@@ -50,7 +50,7 @@ const GET_ALL_PRODUCTS = gql`
     getProducts {
       id
       name
-      quantity
+      stock
       price
     }
   }
@@ -76,7 +76,7 @@ function AddProduct(): JSX.Element {
         className="mb-4"
         isMulti={true}
         onChange={onChangeProducts}
-        getOptionLabel={(product) => `${product.name} (${product.quantity})`}
+        getOptionLabel={(product) => `${product.name} (${product.stock})`}
         getOptionValue={(product) => product.id}
         styles={customStyles}
         options={products}

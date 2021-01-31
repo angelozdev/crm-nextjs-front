@@ -29,7 +29,7 @@ export interface Client {
 export interface Product {
   id: string
   name: string
-  quantity: number
+  stock: number
   price: number
   createdAt: Date
   updatedAt: Date
