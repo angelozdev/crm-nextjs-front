@@ -18,6 +18,9 @@ import { useRouter } from 'next/router'
 /* Contants */
 import routes from 'constants/routes'
 
+/* Utils */
+import { formatedPrice } from 'utils'
+
 /* Queries and types */
 type DeleteClientById = { deleteProductById: Product }
 const DELETE_PRODUCT_BY_ID = gql`
@@ -32,14 +35,7 @@ const DELETE_PRODUCT_BY_ID = gql`
 `
 
 function ProductRow({ name, quantity, price, id }: Partial<Product>) {
-  // States
-  const formatedPrice = new Intl.NumberFormat('en-EN', {
-    style: 'currency',
-    currency: 'USD',
-    currencySign: 'accounting'
-  })
-    .format(price)
-    .replace('.00', '')
+  // Routing
   const router = useRouter()
 
   // clean cache on delete product
@@ -116,7 +112,7 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
       <td className="border p-4 dark:border-dark-5">{name}</td>
       <td className="border p-4 dark:border-dark-5 text-center">{quantity}</td>
       <td className="border p-4 dark:border-dark-5 text-center">
-        {formatedPrice}
+        {formatedPrice(price)}
       </td>
       <td className="border p-4 dark:border-dark-5">
         <button

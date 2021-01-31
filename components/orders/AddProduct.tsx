@@ -76,16 +76,12 @@ function AddProduct(): JSX.Element {
         className="mb-4"
         isMulti={true}
         onChange={onChangeProducts}
-        name="sabores"
-        getOptionLabel={(product) => {
-          const name = `${product.name}`
-          return name
-        }}
+        getOptionLabel={(product) => `${product.name} (${product.quantity})`}
         getOptionValue={(product) => product.id}
         styles={customStyles}
         options={products}
         placeholder="Select the product"
-        noOptionsMessage={() => 'Product not found'}
+        noOptionsMessage={({ inputValue }) => `${inputValue} not found.`}
       />
     </React.Fragment>
   )

@@ -76,11 +76,7 @@ function SelectClient(): JSX.Element {
       <Select
         className="mb-4"
         onChange={onChangeClient}
-        name="sabores"
-        getOptionLabel={(client) => {
-          const name = `${client.first_name} ${client.last_name}`
-          return name
-        }}
+        getOptionLabel={(client) => `${client.first_name} ${client.last_name}`}
         getOptionValue={(client) => client.id}
         styles={customStyles}
         options={clients}
