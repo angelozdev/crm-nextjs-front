@@ -35,6 +35,10 @@ export interface Product {
   updatedAt: Date
 }
 
+export interface ProductWithQuantity extends Product {
+  quantity: number
+}
+
 export interface User {
   id: string
   first_name: string

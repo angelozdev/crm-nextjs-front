@@ -14,7 +14,7 @@ function SelectedProducts() {
   // JSX Elements
   if (products.length > 0) {
     content = products.map((product) => (
-      <SelectedProductItem product={product} />
+      <SelectedProductItem key={product.id} product={product} />
     ))
   } else {
     content = <p>There are no products selected</p>

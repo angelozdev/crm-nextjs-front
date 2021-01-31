@@ -1,9 +1,9 @@
-import { Client, Product } from 'types'
+import { Client, Product, ProductWithQuantity } from 'types'
 
 /* ACTIONS TYPES */
 export enum ActionTypes {
   SELECT_CLIENT = 'SELECT_CLIENT',
-  PRODUCT_QUANTITY = 'PRODUCT_QUANTITY',
+  SET_QUANTITY = 'SET_QUANTITY',
   ADD_PRODUCT = 'ADD_PRODUCT'
 }
 
@@ -16,7 +16,12 @@ export interface AddProduct {
   products: Product[]
 }
 
-export type Actions = SelectClient | AddProduct
+export interface SetQuantity {
+  type: typeof ActionTypes.SET_QUANTITY
+  productWithQuantity: ProductWithQuantity
+}
+
+export type Actions = SelectClient | AddProduct | SetQuantity
 
 export type Value = {
   state: LocalState
