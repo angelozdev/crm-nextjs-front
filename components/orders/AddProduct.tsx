@@ -11,7 +11,7 @@ import { GetProducts, Product } from 'types'
 
 /* Context */
 import OrderContext from 'context/orders/context'
-import { addProduct } from 'context/orders/actions'
+import { addProduct, updateTotal } from 'context/orders/actions'
 
 // Types
 type CustomStyles = Partial<Styles<Partial<Product>, false>>
@@ -66,6 +66,7 @@ function AddProduct(): JSX.Element {
   // Methods
   const onChangeProducts = (products: Product[]): void => {
     dispatch(addProduct(products))
+    dispatch(updateTotal())
   }
 
   const products = data?.getProducts

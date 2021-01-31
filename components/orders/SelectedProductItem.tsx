@@ -22,10 +22,10 @@ function SelectedProductItem({ product }: Props) {
   const { name, price, stock } = product
 
   // States
-  const [quantity, setQuantity] = React.useState<number>(0)
+  const [quantity, setQuantity] = React.useState<number>(1)
 
   // Context
-  const { dispatch, state } = React.useContext(OrderContext)
+  const { dispatch } = React.useContext(OrderContext)
 
   // Methods
   const onChangeQuantity = (e: ChangeEvent) => {
@@ -37,6 +37,7 @@ function SelectedProductItem({ product }: Props) {
   React.useEffect(() => {
     const productWithQuantity: ProductWithQuantity = { ...product, quantity }
     dispatch(actions.setQuantity(productWithQuantity))
+    dispatch(actions.updateTotal())
   }, [quantity])
 
   return (

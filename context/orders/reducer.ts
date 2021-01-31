@@ -1,4 +1,4 @@
-import { Product, ProductWithQuantity } from 'types'
+import { ProductWithQuantity } from 'types'
 import { initialState } from './state'
 import { Actions, ActionTypes, LocalState } from './types'
 
@@ -15,7 +15,7 @@ function reducer(
     }
 
     case ActionTypes.ADD_PRODUCT: {
-      let products: Product[] | ProductWithQuantity[] = []
+      let products: ProductWithQuantity[] = []
 
       if (state.products.length > 0) {
         products = action.products.map((productSelected) => {
@@ -49,6 +49,22 @@ function reducer(
       return {
         ...state,
         products
+      }
+    }
+
+    case ActionTypes.UPDATE_TOTAL: {
+      const reducer = (total: number, current: ProductWithQuantity) => {
+        const { price, quantity = 0 } = current
+        const localTotal = price * quantity
+
+        return total + localTotal
+      }
+
+      const total = state.products.reduce(reducer, 0)
+
+      return {
+        ...state,
+        total
       }
     }
     default:

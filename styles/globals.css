@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply transition-all duration-200 hover:shadow-md p-2 border  rounded-lg;
+  @apply transition-all duration-200 hover:shadow-md p-2 border rounded-lg disabled:opacity-50;
 }
 
 .btn.primary {

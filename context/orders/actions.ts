@@ -1,5 +1,11 @@
-import { Client, Product, ProductWithQuantity } from 'types'
-import { ActionTypes, AddProduct, SelectClient, SetQuantity } from './types'
+import { Client, ProductWithQuantity } from 'types'
+import {
+  ActionTypes,
+  AddProduct,
+  SelectClient,
+  SetQuantity,
+  UpdateTotal
+} from './types'
 
 /* ACTIONS */
 export const selectClient = (client: Client): SelectClient => ({
@@ -7,7 +13,7 @@ export const selectClient = (client: Client): SelectClient => ({
   client
 })
 
-export const addProduct = (products: Product[]): AddProduct => ({
+export const addProduct = (products: ProductWithQuantity[]): AddProduct => ({
   type: ActionTypes.ADD_PRODUCT,
   products
 })
@@ -17,4 +23,8 @@ export const setQuantity = (
 ): SetQuantity => ({
   type: ActionTypes.SET_QUANTITY,
   productWithQuantity
+})
+
+export const updateTotal = (): UpdateTotal => ({
+  type: ActionTypes.UPDATE_TOTAL
 })

@@ -4,7 +4,8 @@ import { Client, Product, ProductWithQuantity } from 'types'
 export enum ActionTypes {
   SELECT_CLIENT = 'SELECT_CLIENT',
   SET_QUANTITY = 'SET_QUANTITY',
-  ADD_PRODUCT = 'ADD_PRODUCT'
+  ADD_PRODUCT = 'ADD_PRODUCT',
+  UPDATE_TOTAL = 'UPDATE_TOTAL'
 }
 
 export interface SelectClient {
@@ -13,7 +14,11 @@ export interface SelectClient {
 }
 export interface AddProduct {
   type: typeof ActionTypes.ADD_PRODUCT
-  products: Product[]
+  products: ProductWithQuantity[]
+}
+
+export interface UpdateTotal {
+  type: typeof ActionTypes.UPDATE_TOTAL
 }
 
 export interface SetQuantity {
@@ -21,7 +26,7 @@ export interface SetQuantity {
   productWithQuantity: ProductWithQuantity
 }
 
-export type Actions = SelectClient | AddProduct | SetQuantity
+export type Actions = SelectClient | AddProduct | SetQuantity | UpdateTotal
 
 export type Value = {
   state: LocalState
@@ -31,6 +36,6 @@ export type Value = {
 /* LOCAL STATE */
 export interface LocalState {
   client: Client
-  products: Product[]
+  products: ProductWithQuantity[]
   total: number
 }
