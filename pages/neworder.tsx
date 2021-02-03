@@ -8,14 +8,40 @@ import {
   SelectedProductList,
   Total
 } from 'components/orders'
+
+/* Context */
 import OrderContext from 'context/orders/context'
+import { resetOrderForm } from 'context/orders/actions'
+
+/* Graphql */
+import { gql, useMutation } from '@apollo/client'
+
+/* NExt */
+import { useRouter } from 'next/router'
+
+/* Contanst */
+import routes from 'constants/routes'
+
+// Queries
+const CREATE_NEW_ORDER = gql`
+  mutation createOrder($input: CreateOrderFields!) {
+    createOrder(input: $input) {
+      id
+    }
+  }
+`
 
 /* Main Component */
 function NewOrder() {
-  const { state } = React.useContext(OrderContext)
+  const { state, dispatch } = React.useContext(OrderContext)
 
+  // Queries
+  const [createOrder] = useMutation(CREATE_NEW_ORDER)
+
+  // States
   const [isValid, setIsValid] = React.useState(false)
 
+  // Methods
   const validate = (): boolean => {
     const { products, total, client } = state
     const haveProducts = products.every((p) => p.quantity !== 0)
@@ -30,6 +56,32 @@ function NewOrder() {
     return true
   }
 
+  // Routing
+  const router = useRouter()
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const products = state.products.reduce((accum, current) => {
+      return [...accum, { productId: current.id, quantity: current.quantity }]
+    }, [])
+
+    createOrder({
+      variables: {
+        input: {
+          products,
+          total: state.total,
+          client: state.client.id
+        }
+      }
+    })
+      .then(() => {
+        dispatch(resetOrderForm())
+        return router.push(routes.ORDERS)
+      })
+      .catch(console.error)
+  }
+
   React.useEffect(() => {
     setIsValid(validate())
   }, [state])
@@ -39,7 +91,7 @@ function NewOrder() {
       <div className="w-full max-w-md mx-auto lg:p-5 lg:border rounded-lg lg:shadow-lg">
         <h1 className="text-2xl">New Order</h1>
         <div className="my-8">
-          <form>
+          <form onSubmit={onSubmit}>
             <SelectClient />
             <AddProduct />
             <SelectedProductList />

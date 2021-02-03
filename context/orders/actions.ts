@@ -4,7 +4,8 @@ import {
   AddProduct,
   SelectClient,
   SetQuantity,
-  UpdateTotal
+  UpdateTotal,
+  ResetOrderForm
 } from './types'
 
 /* ACTIONS */
@@ -27,4 +28,8 @@ export const setQuantity = (
 
 export const updateTotal = (): UpdateTotal => ({
   type: ActionTypes.UPDATE_TOTAL
+})
+
+export const resetOrderForm = (): ResetOrderForm => ({
+  type: ActionTypes.RESET_ORDER_FORM
 })

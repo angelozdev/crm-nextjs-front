@@ -67,6 +67,10 @@ function reducer(
         total
       }
     }
+
+    case ActionTypes.RESET_ORDER_FORM: {
+      return { ...initialState }
+    }
     default:
       return state
   }
