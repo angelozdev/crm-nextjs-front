@@ -1,6 +1,6 @@
 /* Components */
 import * as React from 'react'
-import { Layout } from '@components/index'
+import { ErrorMessage, Layout } from '@components/index'
 
 /* Hooks */
 import { useForm } from 'react-hook-form'
@@ -101,7 +101,7 @@ function Login() {
             )
           })}
 
-          {error && <span className="message error">{error.message}</span>}
+          <ErrorMessage error={error} />
           <p className="mt-24 mb-4 text-center text-gray-400">
             Don't have an account?{' '}
             <Link href={routes.SIGNUP}>

@@ -1,5 +1,5 @@
 /* Components */
-import Layout from '@components/Layout'
+import { Layout, ErrorMessage } from 'components'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -111,7 +111,7 @@ function Signup() {
               </div>
             )
           })}
-          {error && <span className="message error">{error.message}</span>}
+          <ErrorMessage error={error} />
 
           <p className="mt-8 mb-4 text-center text-gray-400">
             I already have an{' '}

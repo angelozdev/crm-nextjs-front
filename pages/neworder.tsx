@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout } from 'components'
+import { ErrorMessage, Layout } from 'components'
 import {
   AddProduct,
   SelectClient,
@@ -36,7 +36,7 @@ function NewOrder() {
   const { state, dispatch } = React.useContext(OrderContext)
 
   // Queries
-  const [createOrder] = useMutation(CREATE_NEW_ORDER)
+  const [createOrder, { error }] = useMutation(CREATE_NEW_ORDER)
 
   // States
   const [isValid, setIsValid] = React.useState(false)
@@ -96,6 +96,7 @@ function NewOrder() {
             <AddProduct />
             <SelectedProductList />
             <Total />
+            <ErrorMessage className="mt-4" error={error} />
 
             <button className="btn primary btn-full mt-4" disabled={!isValid}>
               <span className="mx-4">Save</span>

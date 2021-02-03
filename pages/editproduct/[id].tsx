@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 
 /* Components */
-import { Layout, Spinner } from 'components'
+import { ErrorMessage, Layout, Spinner } from 'components'
 
 /* Fixtures */
 import { createProduct } from 'fixtures/fileds'
@@ -146,7 +146,7 @@ function EditProduct() {
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             {fields}
-            {error && <span className="message error">{error.message}</span>}
+            <ErrorMessage error={error} />
 
             <button
               onClick={handleSubmit(onSubmit)}

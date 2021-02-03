@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout, Spinner } from '@components'
+import { ErrorMessage, Layout, Spinner } from 'components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -158,7 +158,7 @@ function EditClient() {
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             {fields}
-            {error && <span className="message error">{error.message}</span>}
+            <ErrorMessage error={error} />
 
             <button
               onClick={handleSubmit(onSubmit)}
