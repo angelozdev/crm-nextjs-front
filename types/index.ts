@@ -3,6 +3,13 @@ import { RegisterOptions } from 'react-hook-form'
 /* HELPERS */
 export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+/* Enuns */
+export enum StatusesOrder {
+  PENDING = 'PENDING',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED'
+}
+
 /* INTERFACES */
 export interface Field extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string

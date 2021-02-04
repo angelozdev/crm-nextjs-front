@@ -1,4 +1,4 @@
-import { Client, Product, ProductWithQuantity } from 'types'
+import { Client, ProductWithQuantity } from 'types'
 
 /* ACTIONS TYPES */
 export enum ActionTypes {
