@@ -67,13 +67,10 @@ function Signup() {
         }
       }
     })
-      .then(({ data }) => {
-        console.log(data)
+      .then(() => {
         router.push(routes.LOGIN)
       })
-      .catch((err) => {
-        console.log(err.graphQLErrors)
-      })
+      .catch(console.error)
   }
 
   return (

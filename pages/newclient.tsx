@@ -76,7 +76,6 @@ function NewClient() {
       }
     })
       .then((newClient) => {
-        console.log(newClient)
         router.push(routes.HOME)
       })
       .catch((err) => {

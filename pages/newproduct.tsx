@@ -50,7 +50,6 @@ function NewProduct() {
     const { getProducts: products } = cache.readQuery<GetProducts>({
       query: GET_ALL_PRODUCTS
     })
-    console.log(products)
 
     cache.writeQuery<GetProducts>({
       query: GET_ALL_PRODUCTS,
@@ -91,8 +90,6 @@ function NewProduct() {
 
   // Handlers
   const onSubmit = async (inputs: Fields) => {
-    console.log(inputs)
-
     const { name, price, stock } = inputs
 
     return createNewProduct({
@@ -103,7 +100,6 @@ function NewProduct() {
       }
     })
       .then(({ data }) => {
-        console.log(data)
         router.push(routes.PRODUCTS)
       })
       .catch(console.error)

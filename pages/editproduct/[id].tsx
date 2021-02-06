@@ -99,8 +99,7 @@ function EditProduct() {
         }
       }
     })
-      .then(({ data }) => {
-        console.log(data)
+      .then(() => {
         return router.push(routes.PRODUCTS)
       })
       .then(() => {

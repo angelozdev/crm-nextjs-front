@@ -65,7 +65,6 @@ function EditClient() {
       }
     })
       .then(({ data }) => {
-        console.log(data)
         return router.push(routes.HOME)
       })
       .then(() => {
@@ -89,11 +88,6 @@ function EditClient() {
   const { handleSubmit, register, errors } = useForm<Client>({
     mode: 'onBlur'
   })
-
-  // Lifecircle
-  React.useEffect(() => {
-    console.log(data)
-  }, [data])
 
   // Condifionals
   if (gettingData) return <Spinner />
