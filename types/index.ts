@@ -21,7 +21,7 @@ export interface Field extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export interface Client {
   id: string
-  phone_number: number
+  phone_number: string
   first_name: string
   last_name: string
   company: string
@@ -56,6 +56,21 @@ export interface User {
   updatedAt: Date
 }
 
+export interface Order {
+  id: string
+  status: StatusesOrder
+  client: Client
+  seller: User
+  total: number
+  products: {
+    product: Product
+    quantity: number
+  }[]
+}
+
 /* TYPES */
 export type GetMyClients = { getMyClients: Client[] }
 export type GetProducts = { getProducts: Product[] }
+export type GetMyOrders = {
+  getMyOrders: Array<Order>
+}

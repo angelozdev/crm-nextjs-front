@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 /* COMPONENTS */
-import { Spinner, Layout } from 'components'
+import { Spinner, Layout, OrderList } from 'components'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -14,21 +14,7 @@ import routes from 'constants/routes'
 import { gql, useQuery } from '@apollo/client'
 
 /* Types */
-import { Client, StatusesOrder, User } from 'types'
-
-// Types
-type GetMyOrders = {
-  getMyOrders: Array<{
-    id: string
-    status: StatusesOrder
-    client: Client
-    seller: User
-    products: {
-      productId: string
-      quantity: number
-    }
-  }>
-}
+import { GetMyOrders } from 'types'
 
 // Queries
 const GET_MY_ORDERS = gql`
@@ -38,16 +24,21 @@ const GET_MY_ORDERS = gql`
       status
       client {
         first_name
+        email
         last_name
+        phone_number
       }
       seller {
         first_name
         last_name
       }
       products {
-        productId
+        product {
+          name
+        }
         quantity
       }
+      total
     }
   }
 `
@@ -82,13 +73,8 @@ function Orders(): JSX.Element {
             <span className="mx-4">New Order</span>
           </a>
         </Link>
-        {getMyOrders.map((order) => {
-          return (
-            <p>
-              {order.client.first_name} {order.client.last_name}
-            </p>
-          )
-        })}
+
+        <OrderList orders={getMyOrders} />
       </div>
     </Layout>
   )
