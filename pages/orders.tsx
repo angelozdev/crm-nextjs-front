@@ -50,11 +50,6 @@ function Orders(): JSX.Element {
   // Routing
   const router = useRouter()
 
-  // Lifecircle
-  React.useEffect(() => {
-    console.log(data)
-  }, [data])
-
   // Conditionals
   if (loading) return <Spinner />
   if (!data) {

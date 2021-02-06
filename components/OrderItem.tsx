@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Types */
-import { Order, StatusesOrder } from 'types'
+import { GetMyOrders, Order, StatusesOrder } from 'types'
 
 /* Fixtures */
 import statusOptions from 'fixtures/statusOptions'
@@ -9,39 +9,127 @@ import statusOptions from 'fixtures/statusOptions'
 /* Utils */
 import { formatedPrice } from 'utils'
 
-interface Props extends Partial<Order> {}
-type ChangeSelect = React.ChangeEvent<HTMLSelectElement>
+/* Graphql */
+import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
-function OrderItem({ client, products, status, total }: Props): JSX.Element {
+/* Local Types */
+type Props = Partial<Order>
+type ChangeSelect = React.ChangeEvent<HTMLSelectElement>
+type UpdateOrderById = {
+  updateOrderById: { status: StatusesOrder; id: string }
+}
+
+/* Queries */
+const UPDATE_ORDER_BY_ID = gql`
+  mutation updateOrderById($input: UpdateOrderFields!, $id: String!) {
+    updateOrderById(input: $input, id: $id) {
+      status
+      id
+    }
+  }
+`
+
+/* Update cache on change status */
+const updateCacheOnChangeStatus: MutationUpdaterFn<UpdateOrderById> = (
+  cache,
+  { data: { updateOrderById } }
+) => {
+  const query = gql`
+    query getMyOrders {
+      getMyOrders {
+        id
+        status
+        client {
+          first_name
+          email
+          last_name
+          phone_number
+        }
+        seller {
+          first_name
+          last_name
+        }
+        products {
+          product {
+            name
+          }
+          quantity
+        }
+        total
+      }
+    }
+  `
+  const { getMyOrders } = cache.readQuery<GetMyOrders>({ query })
+
+  cache.writeQuery({
+    query,
+    data: [
+      ...getMyOrders.filter((order) => order.id === updateOrderById.id),
+      updateOrderById
+    ]
+  })
+}
+
+/* Main Component */
+function OrderItem({
+  client,
+  products,
+  status,
+  total,
+  id
+}: Props): JSX.Element {
   // States
   const [statusOrder, setStatusOrder] = React.useState<string>(status)
+  const [classesByStatus, setClassesByStatus] = React.useState('')
+
+  // Queries
+  const [updateOrderById] = useMutation<UpdateOrderById>(UPDATE_ORDER_BY_ID, {
+    update: updateCacheOnChangeStatus
+  })
 
   const { first_name, last_name, email, phone_number } = client
 
-  const classesByStatus = (status: StatusesOrder | string) => {
-    switch (status) {
-      case StatusesOrder.CANCELLED: {
-        return 'border-red-800'
-      }
-      case StatusesOrder.COMPLETED: {
-        return 'border-green-700'
-      }
-      case StatusesOrder.PENDING: {
-        return 'border-yellow-600'
-      }
-    }
-  }
-
   // Methods
   const onChangeStatus = (e: ChangeSelect): void => {
-    setStatusOrder(e.target.value)
+    const newStatus = e.target.value
+
+    if (newStatus === statusOrder) return
+
+    updateOrderById({
+      variables: {
+        input: {
+          status: newStatus
+        },
+        id
+      }
+    })
+      .then(({ data }) => {
+        setStatusOrder(data.updateOrderById.status)
+      })
+      .catch(console.error)
   }
+
+  // Lifecircle
+  React.useEffect(() => {
+    switch (statusOrder) {
+      case StatusesOrder.CANCELLED: {
+        setClassesByStatus('border-red-800')
+        break
+      }
+      case StatusesOrder.COMPLETED: {
+        setClassesByStatus('border-green-700')
+        break
+      }
+      case StatusesOrder.PENDING: {
+        setClassesByStatus('border-yellow-600')
+        break
+      }
+    }
+  }, [statusOrder])
 
   return (
     <li
-      className={`p-4 w-full bg-black-900 mb-2 rounded-lg border-t ${classesByStatus(
-        statusOrder
-      )}`}
+      className={`p-4 w-full bg-black-900 mb-2 rounded-lg border-t ${classesByStatus}`}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="">
@@ -109,7 +197,7 @@ function OrderItem({ client, products, status, total }: Props): JSX.Element {
           <div className="text-gray-400">
             {products.map((product, index) => {
               return (
-                <div key={`${product.product.id}${index}`}>
+                <div className="mb-2" key={`${product.product.id}${index}`}>
                   <p>Product: {product.product.name}</p>
                   <p>Quantity: {product.quantity}</p>
                 </div>

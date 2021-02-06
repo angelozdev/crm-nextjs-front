@@ -20,14 +20,15 @@ function OrderList({ orders }: Props): JSX.Element {
     <ul className="container mx-auto">
       <div className="">
         {orders.map((order) => {
-          const { client, products, status, total } = order
+          const { client, products, status, total, id } = order
           return (
             <OrderItem
-              key={order.id}
+              key={id}
               client={client}
               products={products}
               status={status}
               total={total}
+              id={id}
             />
           )
         })}

@@ -63,7 +63,7 @@ function NewOrder() {
     e.preventDefault()
 
     const products = state.products.reduce((accum, current) => {
-      return [...accum, { productId: current.id, quantity: current.quantity }]
+      return [...accum, { product: current.id, quantity: current.quantity }]
     }, [])
 
     createOrder({
