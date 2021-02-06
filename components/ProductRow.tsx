@@ -7,7 +7,8 @@ import { Edit, Trash } from './icons'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { DELETE_PRODUCT_BY_ID, GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Types */
 import { GetProducts, Product } from 'types'
@@ -21,18 +22,8 @@ import routes from 'constants/routes'
 /* Utils */
 import { formatedPrice } from 'utils'
 
-/* Queries and types */
+/* Queries */
 type DeleteClientById = { deleteProductById: Product }
-const DELETE_PRODUCT_BY_ID = gql`
-  mutation deleteProductById($id: String!) {
-    deleteProductById(id: $id) {
-      id
-      name
-      stock
-      price
-    }
-  }
-`
 
 function ProductRow({ name, stock, price, id }: Partial<Product>) {
   // Routing
@@ -40,20 +31,12 @@ function ProductRow({ name, stock, price, id }: Partial<Product>) {
 
   // clean cache on delete product
   const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
-    const query = gql`
-      query getAllProducts {
-        getProducts {
-          id
-          name
-          stock
-          price
-        }
-      }
-    `
-    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
+    const { getProducts: products } = cache.readQuery<GetProducts>({
+      query: GET_ALL_PRODUCTS
+    })
 
     cache.writeQuery<GetProducts>({
-      query,
+      query: GET_ALL_PRODUCTS,
       data: {
         getProducts: products.filter((client) => {
           return client.id !== id

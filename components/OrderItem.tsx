@@ -16,7 +16,12 @@ import { useClassesByStatusOrder } from 'hooks'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import {
+  GET_MY_ORDERS,
+  UPDATE_ORDER_BY_ID,
+  DELETE_ORDER_BY_ID
+} from 'graphql/queries'
 
 /* Local Types */
 type Props = Partial<Order>
@@ -29,50 +34,6 @@ type UpdateOrderById = {
 }
 
 type DeleteOrderById = { deleteOrderById: { id: string } }
-
-/* Queries */
-const UPDATE_ORDER_BY_ID = gql`
-  mutation updateOrderById($input: UpdateOrderFields!, $id: String!) {
-    updateOrderById(input: $input, id: $id) {
-      status
-      id
-    }
-  }
-`
-
-const DELETE_ORDER_BY_ID = gql`
-  mutation deleteOrderById($id: String!) {
-    deleteOrderById(id: $id) {
-      id
-    }
-  }
-`
-
-const GET_MY_ORDERS = gql`
-  query getMyOrders {
-    getMyOrders {
-      id
-      status
-      client {
-        first_name
-        email
-        last_name
-        phone_number
-      }
-      seller {
-        first_name
-        last_name
-      }
-      products {
-        product {
-          name
-        }
-        quantity
-      }
-      total
-    }
-  }
-`
 
 /* Update cachen on delete a order */
 const updateCacheOnDeleteOrder: MutationUpdaterFn<DeleteOrderById> = (

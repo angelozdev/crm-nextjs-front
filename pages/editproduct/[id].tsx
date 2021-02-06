@@ -10,7 +10,8 @@ import { ErrorMessage, Layout, Spinner } from 'components'
 import { createProduct } from 'fixtures/fileds'
 
 /* Graphql */
-import { useQuery, gql, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
+import { GET_PRODUCT_BY_ID, UPDATE_PRODUCT } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -33,27 +34,6 @@ interface Fields {
 }
 
 /* Queries */
-const GET_PRODUCT_BY_ID = gql`
-  query getProductById($id: String!) {
-    getProductById(id: $id) {
-      id
-      name
-      stock
-      price
-    }
-  }
-`
-
-const UPDATE_PRODUCT = gql`
-  mutation updateProductById($input: UpdateProductFields!, $id: String!) {
-    updateProductById(input: $input, id: $id) {
-      id
-      name
-      price
-      stock
-    }
-  }
-`
 
 function EditProduct() {
   // Form

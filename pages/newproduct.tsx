@@ -13,7 +13,8 @@ import { createProduct } from 'fixtures/fileds'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { CREATE_NEW_PRODUCT, GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -32,18 +33,6 @@ type CreateProduct = {
   createProduct: Product
 }
 
-/* Queries */
-const CREATE_NEW_PRODUCT = gql`
-  mutation createNewProduct($name: String!, $price: Float!, $stock: Int!) {
-    createProduct(name: $name, stock: $stock, price: $price) {
-      name
-      stock
-      price
-      id
-    }
-  }
-`
-
 function NewProduct() {
   // Routing
   const router = useRouter()
@@ -58,21 +47,13 @@ function NewProduct() {
     cache,
     { data: { createProduct: createdProduct } }
   ) => {
-    const query = gql`
-      query getAllProducts {
-        getProducts {
-          id
-          name
-          stock
-          price
-        }
-      }
-    `
-    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
+    const { getProducts: products } = cache.readQuery<GetProducts>({
+      query: GET_ALL_PRODUCTS
+    })
     console.log(products)
 
     cache.writeQuery<GetProducts>({
-      query,
+      query: GET_ALL_PRODUCTS,
       data: {
         getProducts: [...products, createdProduct]
       }

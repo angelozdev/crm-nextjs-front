@@ -4,10 +4,11 @@ import * as React from 'react'
 import Select, { Styles } from 'react-select'
 
 /* Graphql */
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Types */
-import { GetProducts, Product } from 'types'
+import { GetProducts, Product, ProductWithQuantity } from 'types'
 
 /* Context */
 import OrderContext from 'context/orders/context'
@@ -45,16 +46,6 @@ const customStyles: CustomStyles = {
 }
 
 /* Queries */
-const GET_ALL_PRODUCTS = gql`
-  query getAllProducts {
-    getProducts {
-      id
-      name
-      stock
-      price
-    }
-  }
-`
 
 function AddProduct(): JSX.Element {
   // Context
@@ -64,7 +55,7 @@ function AddProduct(): JSX.Element {
   const { data } = useQuery<GetProducts>(GET_ALL_PRODUCTS)
 
   // Methods
-  const onChangeProducts = (products: Product[]): void => {
+  const onChangeProducts = (products: ProductWithQuantity[]): void => {
     dispatch(addProduct(products))
     dispatch(updateTotal())
   }

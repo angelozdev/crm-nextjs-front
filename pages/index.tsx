@@ -9,26 +9,14 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 /* Apollo */
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_MY_CLIENTS } from 'graphql/queries'
 
 /* Contants */
 import routes from 'constants/routes'
 
 /* Types */
 import { GetMyClients } from 'types'
-
-/* Queries */
-const GET_MY_CLIENTS = gql`
-  query getMyClients {
-    getMyClients {
-      id
-      first_name
-      last_name
-      company
-      email
-    }
-  }
-`
 
 function Home(): JSX.Element {
   // Queries
@@ -37,7 +25,7 @@ function Home(): JSX.Element {
   // Routing
   const router = useRouter()
 
-  // TODO: Spinner
+  // Conditionals
   if (loading) return <Spinner />
 
   // Redirect

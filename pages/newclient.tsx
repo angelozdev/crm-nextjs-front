@@ -10,7 +10,8 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { CREATE_NEW_CLIENT, GET_MY_CLIENTS } from 'graphql/queries'
 
 /* Fixtures */
 import { createClientFields } from 'fixtures/fileds'
@@ -24,17 +25,6 @@ import { Client, GetMyClients } from 'types'
 type CreateNewClient = {
   createClient: Client
 }
-
-const CREAT_NEW_CLIENT = gql`
-  mutation createNewClient($input: CreateClientFields!) {
-    createClient(input: $input) {
-      id
-      first_name
-      company
-      email
-    }
-  }
-`
 
 function NewClient() {
   // Routing
@@ -50,21 +40,12 @@ function NewClient() {
     cache,
     { data: { createClient } }
   ) => {
-    const query = gql`
-      query getMyClients {
-        getMyClients {
-          id
-          first_name
-          last_name
-          company
-          email
-        }
-      }
-    `
-    const { getMyClients } = cache.readQuery<GetMyClients>({ query })
+    const { getMyClients } = cache.readQuery<GetMyClients>({
+      query: GET_MY_CLIENTS
+    })
 
     cache.writeQuery<GetMyClients>({
-      query,
+      query: GET_MY_CLIENTS,
       data: {
         getMyClients: [...getMyClients, createClient]
       }
@@ -73,7 +54,7 @@ function NewClient() {
 
   // Mutations
   const [createNewClient, { loading, error }] = useMutation<CreateNewClient>(
-    CREAT_NEW_CLIENT,
+    CREATE_NEW_CLIENT,
     { update: updateCache }
   )
 

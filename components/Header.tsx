@@ -2,7 +2,8 @@
 import * as React from 'react'
 
 /* Graphql */
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_USER_LOGGED } from 'graphql/queries'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -17,15 +18,6 @@ import { User } from 'types'
 import Spinner from './Spinner'
 
 type GetUserLogged = { getUserLogged: User }
-
-const GET_USER_LOGGED = gql`
-  query getUserLogged {
-    getUserLogged {
-      first_name
-      last_name
-    }
-  }
-`
 
 function Header(): JSX.Element {
   // grapql queries

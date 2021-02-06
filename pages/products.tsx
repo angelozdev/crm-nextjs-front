@@ -2,7 +2,8 @@
 import { Layout, ProductRows, Spinner } from '@components'
 
 /* Graphql */
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -13,19 +14,6 @@ import routes from 'constants/routes'
 
 /* Types */
 import { GetProducts } from 'types'
-
-/* Types and Queries */
-
-const GET_ALL_PRODUCTS = gql`
-  query getAllProducts {
-    getProducts {
-      id
-      name
-      stock
-      price
-    }
-  }
-`
 
 function Orders() {
   // Queries

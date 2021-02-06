@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 /* Components */
 import { Layout, ErrorMessage } from 'components'
 
@@ -13,8 +15,10 @@ import { useRouter } from 'next/router'
 
 /* Hooks */
 import { useForm } from 'react-hook-form'
-import * as React from 'react'
-import { useMutation, gql } from '@apollo/client'
+
+/* Graphql */
+import { useMutation } from '@apollo/client'
+import { CREATE_NEW_USER } from 'graphql/queries'
 
 /* Types */
 interface Inputs {
@@ -24,16 +28,6 @@ interface Inputs {
   first_name: string
   last_name: string
 }
-
-/* Queries */
-const CREATE_NEW_USER = gql`
-  mutation createUser($input: createNewUserFields!) {
-    createUser(createNewUserFields: $input) {
-      first_name
-      email
-    }
-  }
-`
 
 function Signup() {
   // States

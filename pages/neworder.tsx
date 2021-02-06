@@ -14,7 +14,8 @@ import OrderContext from 'context/orders/context'
 import { resetOrderForm } from 'context/orders/actions'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { GET_MY_ORDERS, CREATE_NEW_ORDER } from 'graphql/queries'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -27,59 +28,6 @@ import { GetMyOrders, Order } from 'types'
 
 /* Local types */
 type CreateOrder = { createOrder: Order }
-
-// Queries
-const CREATE_NEW_ORDER = gql`
-  mutation createOrder($input: CreateOrderFields!) {
-    createOrder(input: $input) {
-      id
-      status
-      client {
-        first_name
-        email
-        last_name
-        phone_number
-      }
-      seller {
-        first_name
-        last_name
-      }
-      products {
-        product {
-          name
-        }
-        quantity
-      }
-      total
-    }
-  }
-`
-
-const GET_MY_ORDERS = gql`
-  query getMyOrders {
-    getMyOrders {
-      id
-      status
-      client {
-        first_name
-        email
-        last_name
-        phone_number
-      }
-      seller {
-        first_name
-        last_name
-      }
-      products {
-        product {
-          name
-        }
-        quantity
-      }
-      total
-    }
-  }
-`
 
 /* Update cache on create a new order */
 const updateCacheOnCreateOrder: MutationUpdaterFn<CreateOrder> = (

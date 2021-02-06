@@ -11,37 +11,11 @@ import { Spinner, Layout, OrderList } from 'components'
 import routes from 'constants/routes'
 
 /* Graphql */
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_MY_ORDERS } from 'graphql/queries'
 
 /* Types */
 import { GetMyOrders } from 'types'
-
-// Queries
-const GET_MY_ORDERS = gql`
-  query getMyOrders {
-    getMyOrders {
-      id
-      status
-      client {
-        first_name
-        email
-        last_name
-        phone_number
-      }
-      seller {
-        first_name
-        last_name
-      }
-      products {
-        product {
-          name
-        }
-        quantity
-      }
-      total
-    }
-  }
-`
 
 function Orders(): JSX.Element {
   // Queries

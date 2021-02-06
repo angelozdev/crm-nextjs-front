@@ -16,7 +16,8 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 import { createClientFields } from 'fixtures/fileds'
 
 /* Graphql */
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
+import { UPDATE_CLIENT_BY_ID, GET_CLIENT_BY_ID } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -27,31 +28,6 @@ import { Client } from 'types'
 /* Types */
 type GetClientById = { getClientById: Client }
 type UpdateClientById = { updateClientById: Client }
-
-const GET_CLIENT_BY_ID = gql`
-  query getClientById($id: String!) {
-    getClientById(id: $id) {
-      id
-      first_name
-      last_name
-      email
-      company
-      phone_number
-    }
-  }
-`
-
-const UPDATE_CLIENT_BY_ID = gql`
-  mutation updateClientById($id: String!, $input: UpdateClientFields!) {
-    updateClientById(id: $id, input: $input) {
-      id
-      first_name
-      last_name
-      company
-      email
-    }
-  }
-`
 
 function EditClient() {
   // Routing

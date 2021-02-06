@@ -4,7 +4,8 @@ import * as React from 'react'
 import Select, { Styles } from 'react-select'
 
 /* Graphql */
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_MY_CLIENTS } from 'graphql/queries'
 
 /* Types */
 import { Client, GetMyClients } from 'types'
@@ -43,19 +44,6 @@ const customStyles: CustomStyles = {
     }
   }
 }
-
-/* Queries */
-const GET_MY_CLIENTS = gql`
-  query getMyClients {
-    getMyClients {
-      id
-      first_name
-      last_name
-      company
-      email
-    }
-  }
-`
 
 function SelectClient(): JSX.Element {
   // Context
