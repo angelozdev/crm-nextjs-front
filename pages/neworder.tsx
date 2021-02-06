@@ -23,6 +23,9 @@ import { useRouter } from 'next/router'
 /* Contanst */
 import routes from 'constants/routes'
 
+/* Hooks */
+import { useValidateNewOrder } from 'hooks'
+
 /* Types */
 import { GetMyOrders, Order } from 'types'
 
@@ -46,30 +49,16 @@ const updateCacheOnCreateOrder: MutationUpdaterFn<CreateOrder> = (
 
 /* Main Component */
 function NewOrder() {
+  // Context
   const { state, dispatch } = React.useContext(OrderContext)
+
+  // Hooks
+  const { isValid } = useValidateNewOrder(state)
 
   // Queries
   const [createOrder, { error }] = useMutation(CREATE_NEW_ORDER, {
     update: updateCacheOnCreateOrder
   })
-
-  // States
-  const [isValid, setIsValid] = React.useState(false)
-
-  // Methods
-  const validate = (): boolean => {
-    const { products, total, client } = state
-    const haveProducts = products.every((p) => p.quantity !== 0)
-    if (!haveProducts) return false
-
-    const hasClient = !!client
-    if (!hasClient) return false
-
-    const isTotalGreaterThanZero = total > 0
-    if (!isTotalGreaterThanZero) return false
-
-    return true
-  }
 
   // Routing
   const router = useRouter()
@@ -96,10 +85,6 @@ function NewOrder() {
       })
       .catch(console.error)
   }
-
-  React.useEffect(() => {
-    setIsValid(validate())
-  }, [state])
 
   return (
     <Layout>
