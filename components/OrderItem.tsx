@@ -12,6 +12,9 @@ import { formatedPrice } from 'utils'
 /* Hooks */
 import { useClassesByStatusOrder } from 'hooks'
 
+/* Swal */
+import Swal, { SweetAlertOptions } from 'sweetalert2'
+
 /* Graphql */
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
@@ -25,6 +28,8 @@ type UpdateOrderById = {
   }
 }
 
+type DeleteOrderById = { deleteOrderById: { id: string } }
+
 /* Queries */
 const UPDATE_ORDER_BY_ID = gql`
   mutation updateOrderById($input: UpdateOrderFields!, $id: String!) {
@@ -35,44 +40,54 @@ const UPDATE_ORDER_BY_ID = gql`
   }
 `
 
-/* Update cache on change status */
-const updateCacheOnChangeStatus: MutationUpdaterFn<UpdateOrderById> = (
-  cache,
-  { data: { updateOrderById } }
-) => {
-  const query = gql`
-    query getMyOrders {
-      getMyOrders {
-        id
-        status
-        client {
-          first_name
-          email
-          last_name
-          phone_number
-        }
-        seller {
-          first_name
-          last_name
-        }
-        products {
-          product {
-            name
-          }
-          quantity
-        }
-        total
-      }
+const DELETE_ORDER_BY_ID = gql`
+  mutation deleteOrderById($id: String!) {
+    deleteOrderById(id: $id) {
+      id
     }
-  `
-  const { getMyOrders } = cache.readQuery<GetMyOrders>({ query })
+  }
+`
 
-  cache.writeQuery({
-    query,
-    data: [
-      ...getMyOrders.filter((order) => order.id === updateOrderById.id),
-      updateOrderById
-    ]
+const GET_MY_ORDERS = gql`
+  query getMyOrders {
+    getMyOrders {
+      id
+      status
+      client {
+        first_name
+        email
+        last_name
+        phone_number
+      }
+      seller {
+        first_name
+        last_name
+      }
+      products {
+        product {
+          name
+        }
+        quantity
+      }
+      total
+    }
+  }
+`
+
+/* Update cachen on delete a order */
+const updateCacheOnDeleteOrder: MutationUpdaterFn<DeleteOrderById> = (
+  cache,
+  { data: { deleteOrderById } }
+) => {
+  const { getMyOrders } = cache.readQuery<GetMyOrders>({ query: GET_MY_ORDERS })
+
+  cache.writeQuery<GetMyOrders>({
+    query: GET_MY_ORDERS,
+    data: {
+      getMyOrders: [
+        ...getMyOrders.filter((order) => order.id !== deleteOrderById.id)
+      ]
+    }
   })
 }
 
@@ -86,13 +101,18 @@ function OrderItem({
 }: Props): JSX.Element {
   // States
   const [statusOrder, setStatusOrder] = React.useState<string>(status)
+
+  // Hooks
   const { classesByStatus } = useClassesByStatusOrder(statusOrder)
 
-  // Queries
-  const [updateOrderById] = useMutation<UpdateOrderById>(UPDATE_ORDER_BY_ID, {
-    update: updateCacheOnChangeStatus
+  // Mutations
+  const [updateOrderById] = useMutation<UpdateOrderById>(UPDATE_ORDER_BY_ID)
+
+  const [deleteOrderById] = useMutation<DeleteOrderById>(DELETE_ORDER_BY_ID, {
+    update: updateCacheOnDeleteOrder
   })
 
+  // Destructuring
   const { first_name, last_name, email, phone_number } = client
 
   // Methods
@@ -113,6 +133,38 @@ function OrderItem({
         setStatusOrder(data.updateOrderById.status)
       })
       .catch(console.error)
+  }
+
+  const onDeleteOrder = (): void => {
+    const options: SweetAlertOptions = {
+      title: 'Are you sure?',
+      icon: 'warning',
+      text: `You will delete this order`,
+      showCancelButton: true,
+      cancelButtonColor: 'rgb(239, 68, 68)',
+      confirmButtonColor: 'rgb(16, 185, 129)',
+      iconColor: 'rgb(239, 68, 68)',
+      background: 'rgb(242, 242, 242)',
+      confirmButtonText: 'Delete'
+    }
+
+    Swal.fire(options)
+      .then(({ isConfirmed }) => {
+        if (!isConfirmed) return
+
+        deleteOrderById({ variables: { id } }).then(() => {
+          const options: SweetAlertOptions = {
+            title: 'Deleted!',
+            text: `This order has been deleted.`,
+            icon: 'success',
+            iconColor: 'rgb(16, 185, 129)'
+          }
+          Swal.fire(options)
+        })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   return (
@@ -199,7 +251,7 @@ function OrderItem({
             <span className="font-light"> {formatedPrice(total)}</span>
           </p>
 
-          <button className="btn error mt-4">
+          <button onClick={onDeleteOrder} className="btn error mt-4">
             <span className="px-4">DELETE</span>
           </button>
         </div>

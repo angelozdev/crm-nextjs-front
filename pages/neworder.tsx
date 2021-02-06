@@ -14,29 +14,96 @@ import OrderContext from 'context/orders/context'
 import { resetOrderForm } from 'context/orders/actions'
 
 /* Graphql */
-import { gql, useMutation } from '@apollo/client'
+import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
-/* NExt */
+/* Next */
 import { useRouter } from 'next/router'
 
 /* Contanst */
 import routes from 'constants/routes'
+
+/* Types */
+import { GetMyOrders, Order } from 'types'
+
+/* Local types */
+type CreateOrder = { createOrder: Order }
 
 // Queries
 const CREATE_NEW_ORDER = gql`
   mutation createOrder($input: CreateOrderFields!) {
     createOrder(input: $input) {
       id
+      status
+      client {
+        first_name
+        email
+        last_name
+        phone_number
+      }
+      seller {
+        first_name
+        last_name
+      }
+      products {
+        product {
+          name
+        }
+        quantity
+      }
+      total
     }
   }
 `
+
+const GET_MY_ORDERS = gql`
+  query getMyOrders {
+    getMyOrders {
+      id
+      status
+      client {
+        first_name
+        email
+        last_name
+        phone_number
+      }
+      seller {
+        first_name
+        last_name
+      }
+      products {
+        product {
+          name
+        }
+        quantity
+      }
+      total
+    }
+  }
+`
+
+/* Update cache on create a new order */
+const updateCacheOnCreateOrder: MutationUpdaterFn<CreateOrder> = (
+  cache,
+  { data: { createOrder } }
+) => {
+  const { getMyOrders } = cache.readQuery<GetMyOrders>({ query: GET_MY_ORDERS })
+
+  cache.writeQuery<GetMyOrders>({
+    query: GET_MY_ORDERS,
+    data: {
+      getMyOrders: [...getMyOrders, createOrder]
+    }
+  })
+}
 
 /* Main Component */
 function NewOrder() {
   const { state, dispatch } = React.useContext(OrderContext)
 
   // Queries
-  const [createOrder, { error }] = useMutation(CREATE_NEW_ORDER)
+  const [createOrder, { error }] = useMutation(CREATE_NEW_ORDER, {
+    update: updateCacheOnCreateOrder
+  })
 
   // States
   const [isValid, setIsValid] = React.useState(false)

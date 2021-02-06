@@ -52,7 +52,7 @@ function ClientRow({
     `
     const { getMyClients: clients } = cache.readQuery<GetMyClients>({ query })
 
-    cache.writeQuery({
+    cache.writeQuery<GetMyClients>({
       query,
       data: {
         getMyClients: clients.filter((client) => {

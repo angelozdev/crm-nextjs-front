@@ -52,7 +52,7 @@ function ProductRow({ name, stock, price, id }: Partial<Product>) {
     `
     const { getProducts: products } = cache.readQuery<GetProducts>({ query })
 
-    cache.writeQuery({
+    cache.writeQuery<GetProducts>({
       query,
       data: {
         getProducts: products.filter((client) => {
