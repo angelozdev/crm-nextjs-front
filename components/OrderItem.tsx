@@ -9,6 +9,9 @@ import statusOptions from 'fixtures/statusOptions'
 /* Utils */
 import { formatedPrice } from 'utils'
 
+/* Hooks */
+import { useClassesByStatusOrder } from 'hooks'
+
 /* Graphql */
 import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 
@@ -16,7 +19,10 @@ import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
 type Props = Partial<Order>
 type ChangeSelect = React.ChangeEvent<HTMLSelectElement>
 type UpdateOrderById = {
-  updateOrderById: { status: StatusesOrder; id: string }
+  updateOrderById: {
+    status: StatusesOrder
+    id: string
+  }
 }
 
 /* Queries */
@@ -70,7 +76,7 @@ const updateCacheOnChangeStatus: MutationUpdaterFn<UpdateOrderById> = (
   })
 }
 
-/* Main Component */
+/************************ Main Component *************************/
 function OrderItem({
   client,
   products,
@@ -80,7 +86,7 @@ function OrderItem({
 }: Props): JSX.Element {
   // States
   const [statusOrder, setStatusOrder] = React.useState<string>(status)
-  const [classesByStatus, setClassesByStatus] = React.useState('')
+  const { classesByStatus } = useClassesByStatusOrder(statusOrder)
 
   // Queries
   const [updateOrderById] = useMutation<UpdateOrderById>(UPDATE_ORDER_BY_ID, {
@@ -109,24 +115,6 @@ function OrderItem({
       .catch(console.error)
   }
 
-  // Lifecircle
-  React.useEffect(() => {
-    switch (statusOrder) {
-      case StatusesOrder.CANCELLED: {
-        setClassesByStatus('border-red-800')
-        break
-      }
-      case StatusesOrder.COMPLETED: {
-        setClassesByStatus('border-green-700')
-        break
-      }
-      case StatusesOrder.PENDING: {
-        setClassesByStatus('border-yellow-600')
-        break
-      }
-    }
-  }, [statusOrder])
-
   return (
     <li
       className={`p-4 w-full bg-black-900 mb-2 rounded-lg border-t ${classesByStatus}`}
@@ -134,7 +122,8 @@ function OrderItem({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="">
           <h2 className="text-2xl font-semibold">
-            Client: {first_name} {last_name}
+            <span className="font-light">Client: </span>
+            {first_name} {last_name}
           </h2>
           <div className="my-4">
             <p className="flex items-center">
