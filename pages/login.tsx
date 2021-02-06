@@ -1,6 +1,7 @@
-/* Components */
 import * as React from 'react'
-import { Layout } from '@components/index'
+
+/* Components */
+import { ErrorMessage, Layout } from '@components/index'
 
 /* Hooks */
 import { useForm } from 'react-hook-form'
@@ -10,11 +11,14 @@ import routes from 'constants/routes'
 
 /* Next */
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+/* Fixtures */
 import { loginFields } from 'fixtures/fileds'
 
 /* Apollo */
-import { gql, useMutation } from '@apollo/client'
-import { useRouter } from 'next/router'
+import { useMutation } from '@apollo/client'
+import { LOGIN } from 'graphql/queries'
 
 /* Types */
 interface Inputs {
@@ -23,15 +27,6 @@ interface Inputs {
 }
 
 type Login = { login: { accessToken: string } }
-
-/* Queries */
-const LOGIN = gql`
-  mutation login($email: String!, $password: String!) {
-    login(password: $password, email: $email) {
-      accessToken
-    }
-  }
-`
 
 function Login() {
   // Routing
@@ -101,7 +96,7 @@ function Login() {
             )
           })}
 
-          {error && <span className="message error">{error.message}</span>}
+          <ErrorMessage error={error} />
           <p className="mt-24 mb-4 text-center text-gray-400">
             Don't have an account?{' '}
             <Link href={routes.SIGNUP}>

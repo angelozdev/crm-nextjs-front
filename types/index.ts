@@ -1,7 +1,16 @@
 import { RegisterOptions } from 'react-hook-form'
 
+/* HELPERS */
 export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+/* Enuns */
+export enum StatusesOrder {
+  PENDING = 'PENDING',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED'
+}
+
+/* INTERFACES */
 export interface Field extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string
   type: string
@@ -12,7 +21,7 @@ export interface Field extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export interface Client {
   id: string
-  phone_number: number
+  phone_number: string
   first_name: string
   last_name: string
   company: string
@@ -27,10 +36,14 @@ export interface Client {
 export interface Product {
   id: string
   name: string
-  quantity: number
+  stock: number
   price: number
   createdAt: Date
   updatedAt: Date
+}
+
+export interface ProductWithQuantity extends Product {
+  quantity: number
 }
 
 export interface User {
@@ -43,6 +56,21 @@ export interface User {
   updatedAt: Date
 }
 
-export type GetMyClients = { getMyClients: Client[] }
+export interface Order {
+  id: string
+  status: StatusesOrder
+  client: Client
+  seller: User
+  total: number
+  products: {
+    product: Product
+    quantity: number
+  }[]
+}
 
+/* TYPES */
+export type GetMyClients = { getMyClients: Client[] }
 export type GetProducts = { getProducts: Product[] }
+export type GetMyOrders = {
+  getMyOrders: Array<Order>
+}

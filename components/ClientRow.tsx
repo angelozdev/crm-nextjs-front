@@ -4,7 +4,8 @@ import * as React from 'react'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { DELETE_CLIENT_BY_ID, GET_MY_CLIENTS } from 'graphql/queries'
 
 /* Components */
 import { Edit, Trash } from './icons'
@@ -20,16 +21,6 @@ import { Client, GetMyClients } from 'types'
 
 type DeleteClientById = { deleteClientById: Client }
 
-const DELETE_CLIENT_BY_ID = gql`
-  mutation deleteClientById($id: String!) {
-    deleteClientById(id: $id) {
-      id
-      first_name
-      email
-    }
-  }
-`
-
 function ClientRow({
   first_name,
   last_name,
@@ -39,21 +30,12 @@ function ClientRow({
 }: Partial<Client>): JSX.Element {
   // Clean cache
   const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
-    const query = gql`
-      query getMyClients {
-        getMyClients {
-          id
-          first_name
-          last_name
-          company
-          email
-        }
-      }
-    `
-    const { getMyClients: clients } = cache.readQuery<GetMyClients>({ query })
+    const { getMyClients: clients } = cache.readQuery<GetMyClients>({
+      query: GET_MY_CLIENTS
+    })
 
-    cache.writeQuery({
-      query,
+    cache.writeQuery<GetMyClients>({
+      query: GET_MY_CLIENTS,
       data: {
         getMyClients: clients.filter((client) => {
           return client.id !== id

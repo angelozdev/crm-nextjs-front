@@ -6,10 +6,15 @@ import '../styles/spinner.css'
 import { ApolloProvider } from '@apollo/client'
 import client from 'graphql/client'
 
+/* Context */
+import OrderProvider from '../context/orders/state'
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <OrderProvider>
+        <Component {...pageProps} />
+      </OrderProvider>
     </ApolloProvider>
   )
 }

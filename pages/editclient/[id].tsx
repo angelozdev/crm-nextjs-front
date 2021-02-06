@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 /* Components */
-import { Layout, Spinner } from '@components'
+import { ErrorMessage, Layout, Spinner } from 'components'
 
 /* Next */
 import { useRouter } from 'next/router'
@@ -16,7 +16,8 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 import { createClientFields } from 'fixtures/fileds'
 
 /* Graphql */
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
+import { UPDATE_CLIENT_BY_ID, GET_CLIENT_BY_ID } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -27,31 +28,6 @@ import { Client } from 'types'
 /* Types */
 type GetClientById = { getClientById: Client }
 type UpdateClientById = { updateClientById: Client }
-
-const GET_CLIENT_BY_ID = gql`
-  query getClientById($id: String!) {
-    getClientById(id: $id) {
-      id
-      first_name
-      last_name
-      email
-      company
-      phone_number
-    }
-  }
-`
-
-const UPDATE_CLIENT_BY_ID = gql`
-  mutation updateClientById($id: String!, $input: UpdateClientFields!) {
-    updateClientById(id: $id, input: $input) {
-      id
-      first_name
-      last_name
-      company
-      email
-    }
-  }
-`
 
 function EditClient() {
   // Routing
@@ -89,7 +65,6 @@ function EditClient() {
       }
     })
       .then(({ data }) => {
-        console.log(data)
         return router.push(routes.HOME)
       })
       .then(() => {
@@ -113,11 +88,6 @@ function EditClient() {
   const { handleSubmit, register, errors } = useForm<Client>({
     mode: 'onBlur'
   })
-
-  // Lifecircle
-  React.useEffect(() => {
-    console.log(data)
-  }, [data])
 
   // Condifionals
   if (gettingData) return <Spinner />
@@ -158,7 +128,7 @@ function EditClient() {
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             {fields}
-            {error && <span className="message error">{error.message}</span>}
+            <ErrorMessage error={error} />
 
             <button
               onClick={handleSubmit(onSubmit)}

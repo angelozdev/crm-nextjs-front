@@ -4,13 +4,14 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 
 /* Components */
-import { Layout, Spinner } from 'components'
+import { ErrorMessage, Layout, Spinner } from 'components'
 
 /* Fixtures */
 import { createProduct } from 'fixtures/fileds'
 
 /* Graphql */
-import { useQuery, gql, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
+import { GET_PRODUCT_BY_ID, UPDATE_PRODUCT } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -28,32 +29,11 @@ import Swal, { SweetAlertOptions } from 'sweetalert2'
 type GetProductById = { getProductById: Product }
 interface Fields {
   name: string
-  quantity: number
+  stock: number
   price: number
 }
 
 /* Queries */
-const GET_PRODUCT_BY_ID = gql`
-  query getProductById($id: String!) {
-    getProductById(id: $id) {
-      id
-      name
-      quantity
-      price
-    }
-  }
-`
-
-const UPDATE_PRODUCT = gql`
-  mutation updateProductById($input: UpdateProductFields!, $id: String!) {
-    updateProductById(input: $input, id: $id) {
-      id
-      name
-      price
-      quantity
-    }
-  }
-`
 
 function EditProduct() {
   // Form
@@ -108,19 +88,18 @@ function EditProduct() {
 
   // Handlers
   const onSubmit = async (inputs: Fields): Promise<void> => {
-    const { name, quantity, price } = inputs
+    const { name, stock, price } = inputs
     return updateProduct({
       variables: {
         id,
         input: {
           name,
-          quantity: Number(quantity),
+          stock: Number(stock),
           price: Number(price)
         }
       }
     })
-      .then(({ data }) => {
-        console.log(data)
+      .then(() => {
         return router.push(routes.PRODUCTS)
       })
       .then(() => {
@@ -146,7 +125,7 @@ function EditProduct() {
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             {fields}
-            {error && <span className="message error">{error.message}</span>}
+            <ErrorMessage error={error} />
 
             <button
               onClick={handleSubmit(onSubmit)}
@@ -154,7 +133,7 @@ function EditProduct() {
               disabled={updating}
               className="mt-8 btn primary btn-full disabled:opacity-50"
             >
-              {updating ? 'Creating client...' : 'Save'}
+              {updating ? 'Updating client...' : 'Save'}
             </button>
           </form>
         </div>

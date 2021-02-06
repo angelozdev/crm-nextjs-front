@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 
 /* Components */
-import { Layout } from 'components'
+import { ErrorMessage, Layout } from 'components'
 
 /* Fixtures */
 import { createProduct } from 'fixtures/fileds'
@@ -13,7 +13,8 @@ import { createProduct } from 'fixtures/fileds'
 import { useForm } from 'react-hook-form'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { CREATE_NEW_PRODUCT, GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -25,24 +26,12 @@ import { Product, GetProducts } from 'types'
 interface Fields {
   name: string
   price: number
-  quantity: number
+  stock: number
 }
 
 type CreateProduct = {
   createProduct: Product
 }
-
-/* Queries */
-const CREATE_NEW_PRODUCT = gql`
-  mutation createNewProduct($name: String!, $price: Float!, $quantity: Int!) {
-    createProduct(name: $name, quantity: $quantity, price: $price) {
-      name
-      quantity
-      price
-      id
-    }
-  }
-`
 
 function NewProduct() {
   // Routing
@@ -58,21 +47,12 @@ function NewProduct() {
     cache,
     { data: { createProduct: createdProduct } }
   ) => {
-    const query = gql`
-      query getAllProducts {
-        getProducts {
-          id
-          name
-          quantity
-          price
-        }
-      }
-    `
-    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
-    console.log(products)
+    const { getProducts: products } = cache.readQuery<GetProducts>({
+      query: GET_ALL_PRODUCTS
+    })
 
     cache.writeQuery<GetProducts>({
-      query,
+      query: GET_ALL_PRODUCTS,
       data: {
         getProducts: [...products, createdProduct]
       }
@@ -110,19 +90,16 @@ function NewProduct() {
 
   // Handlers
   const onSubmit = async (inputs: Fields) => {
-    console.log(inputs)
-
-    const { name, price, quantity } = inputs
+    const { name, price, stock } = inputs
 
     return createNewProduct({
       variables: {
         name,
         price: Number(price),
-        quantity: Number(quantity)
+        stock: Number(stock)
       }
     })
       .then(({ data }) => {
-        console.log(data)
         router.push(routes.PRODUCTS)
       })
       .catch(console.error)
@@ -135,7 +112,7 @@ function NewProduct() {
         <div className="my-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             {fileds}
-            {error && <span className="message error">{error.message}</span>}
+            <ErrorMessage error={error} />
 
             <button
               onClick={handleSubmit(onSubmit)}

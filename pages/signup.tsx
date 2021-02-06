@@ -1,5 +1,7 @@
+import * as React from 'react'
+
 /* Components */
-import Layout from '@components/Layout'
+import { Layout, ErrorMessage } from 'components'
 
 /* Constants */
 import routes from 'constants/routes'
@@ -13,8 +15,10 @@ import { useRouter } from 'next/router'
 
 /* Hooks */
 import { useForm } from 'react-hook-form'
-import * as React from 'react'
-import { useMutation, gql } from '@apollo/client'
+
+/* Graphql */
+import { useMutation } from '@apollo/client'
+import { CREATE_NEW_USER } from 'graphql/queries'
 
 /* Types */
 interface Inputs {
@@ -24,16 +28,6 @@ interface Inputs {
   first_name: string
   last_name: string
 }
-
-/* Queries */
-const CREATE_NEW_USER = gql`
-  mutation createUser($input: createNewUserFields!) {
-    createUser(createNewUserFields: $input) {
-      first_name
-      email
-    }
-  }
-`
 
 function Signup() {
   // States
@@ -73,13 +67,10 @@ function Signup() {
         }
       }
     })
-      .then(({ data }) => {
-        console.log(data)
+      .then(() => {
         router.push(routes.LOGIN)
       })
-      .catch((err) => {
-        console.log(err.graphQLErrors)
-      })
+      .catch(console.error)
   }
 
   return (
@@ -111,7 +102,7 @@ function Signup() {
               </div>
             )
           })}
-          {error && <span className="message error">{error.message}</span>}
+          <ErrorMessage error={error} />
 
           <p className="mt-8 mb-4 text-center text-gray-400">
             I already have an{' '}

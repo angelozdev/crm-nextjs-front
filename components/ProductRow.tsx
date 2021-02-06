@@ -7,7 +7,8 @@ import { Edit, Trash } from './icons'
 import Swal, { SweetAlertOptions } from 'sweetalert2'
 
 /* Graphql */
-import { gql, MutationUpdaterFn, useMutation } from '@apollo/client'
+import { MutationUpdaterFn, useMutation } from '@apollo/client'
+import { DELETE_PRODUCT_BY_ID, GET_ALL_PRODUCTS } from 'graphql/queries'
 
 /* Types */
 import { GetProducts, Product } from 'types'
@@ -18,46 +19,24 @@ import { useRouter } from 'next/router'
 /* Contants */
 import routes from 'constants/routes'
 
-/* Queries and types */
-type DeleteClientById = { deleteProductById: Product }
-const DELETE_PRODUCT_BY_ID = gql`
-  mutation deleteProductById($id: String!) {
-    deleteProductById(id: $id) {
-      id
-      name
-      quantity
-      price
-    }
-  }
-`
+/* Utils */
+import { formatedPrice } from 'utils'
 
-function ProductRow({ name, quantity, price, id }: Partial<Product>) {
-  // States
-  const formatedPrice = new Intl.NumberFormat('en-EN', {
-    style: 'currency',
-    currency: 'USD',
-    currencySign: 'accounting'
-  })
-    .format(price)
-    .replace('.00', '')
+/* Queries */
+type DeleteClientById = { deleteProductById: Product }
+
+function ProductRow({ name, stock, price, id }: Partial<Product>) {
+  // Routing
   const router = useRouter()
 
   // clean cache on delete product
   const updateCacheOnDelete: MutationUpdaterFn<DeleteClientById> = (cache) => {
-    const query = gql`
-      query getAllProducts {
-        getProducts {
-          id
-          name
-          quantity
-          price
-        }
-      }
-    `
-    const { getProducts: products } = cache.readQuery<GetProducts>({ query })
+    const { getProducts: products } = cache.readQuery<GetProducts>({
+      query: GET_ALL_PRODUCTS
+    })
 
-    cache.writeQuery({
-      query,
+    cache.writeQuery<GetProducts>({
+      query: GET_ALL_PRODUCTS,
       data: {
         getProducts: products.filter((client) => {
           return client.id !== id
@@ -114,9 +93,9 @@ function ProductRow({ name, quantity, price, id }: Partial<Product>) {
   return (
     <tr>
       <td className="border p-4 dark:border-dark-5">{name}</td>
-      <td className="border p-4 dark:border-dark-5 text-center">{quantity}</td>
+      <td className="border p-4 dark:border-dark-5 text-center">{stock}</td>
       <td className="border p-4 dark:border-dark-5 text-center">
-        {formatedPrice}
+        {formatedPrice(price)}
       </td>
       <td className="border p-4 dark:border-dark-5">
         <button

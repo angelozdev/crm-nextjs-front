@@ -15,14 +15,14 @@ function ProductRows({ products }: Props) {
   return (
     <React.Fragment>
       {products.map((product, index) => {
-        const { name, price, quantity, id } = product
+        const { name, price, stock, id } = product
         return (
           <ProductRow
             id={id}
             key={id}
             price={price}
             name={name}
-            quantity={quantity}
+            stock={stock}
           />
         )
       })}

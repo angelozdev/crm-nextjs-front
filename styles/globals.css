@@ -4,11 +4,15 @@
 @tailwind utilities;
 
 .btn {
-  @apply transition-all duration-200 hover:shadow-md p-2 border  rounded-lg;
+  @apply transition-all duration-200 hover:shadow-md p-2 border rounded-lg disabled:opacity-50;
 }
 
 .btn.primary {
   @apply bg-blue-800 text-white border-blue-800 hover:bg-blue-900;
+}
+
+.btn.error {
+  @apply bg-red-800 text-white border-red-800 hover:bg-red-900;
 }
 
 .btn.btn-full {
