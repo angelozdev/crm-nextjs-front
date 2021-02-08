@@ -21,6 +21,8 @@ function Orders(): JSX.Element {
   // Queries
   const { data, loading } = useQuery<GetMyOrders>(GET_MY_ORDERS)
 
+  console.log(data)
+
   // Routing
   const router = useRouter()
 
@@ -28,7 +30,7 @@ function Orders(): JSX.Element {
   if (loading) return <Spinner />
   if (!data) {
     router.push(routes.HOME)
-    return
+    return null
   }
 
   const { getMyOrders } = data

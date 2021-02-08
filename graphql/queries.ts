@@ -202,3 +202,17 @@ export const UPDATE_PRODUCT = gql`
     }
   }
 `
+
+export const GET_TOP_SELLERS = gql`
+  query getTopSellers {
+    getTopSellers {
+      seller {
+        first_name
+        last_name
+        email
+      }
+      total
+      totalOrders
+    }
+  }
+`
