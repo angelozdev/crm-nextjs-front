@@ -48,30 +48,32 @@ function Home(): JSX.Element {
           </a>
         </Link>
         {areThereClients ? (
-          <table className="table p-4 dark:bg-black-800 bg-white w-full shadow-md rounded-lg border">
-            <thead>
-              <tr className="dark:bg-black-900 bg-gray-100">
-                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Fullname
-                </th>
-                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Company
-                </th>
-                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Email
-                </th>
-                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Delete
-                </th>
-                <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
-                  Edit
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <ClientRows clients={clients} />
-            </tbody>
-          </table>
+          <div className="overflow-x-scroll">
+            <table className="table p-4 dark:bg-black-800 bg-white w-full shadow-md rounded-lg border">
+              <thead>
+                <tr className="dark:bg-black-900 bg-gray-100">
+                  <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                    Fullname
+                  </th>
+                  <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                    Company
+                  </th>
+                  <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                    Email
+                  </th>
+                  <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                    Delete
+                  </th>
+                  <th className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal dark:text-white text-black-900">
+                    Edit
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ClientRows clients={clients} />
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p>You don't have clients for now.</p>
         )}

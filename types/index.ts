@@ -68,9 +68,26 @@ export interface Order {
   }[]
 }
 
+export interface TopSeller {
+  seller: User[]
+  total: number
+  totalOrders: number
+  _id: string
+}
+
+export interface TopClient {
+  client: Client[]
+  total: number
+  totalOrders: number
+  _id: string
+}
+
 /* TYPES */
 export type GetMyClients = { getMyClients: Client[] }
 export type GetProducts = { getProducts: Product[] }
 export type GetMyOrders = {
   getMyOrders: Array<Order>
 }
+
+export type GetTopSellers = { getTopSellers: TopSeller[] }
+export type GetTopClients = { getTopClients: TopClient[] }

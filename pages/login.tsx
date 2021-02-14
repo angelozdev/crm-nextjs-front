@@ -56,8 +56,11 @@ function Login() {
 
         if (!accessToken) throw new Error('Missing access token')
         localStorage.setItem('TOKEN', accessToken)
-
-        router.push(routes.HOME)
+      })
+      .then(() => {
+        setTimeout(() => {
+          router.push(routes.HOME)
+        }, 100)
       })
       .catch((err) => {
         console.error(err)

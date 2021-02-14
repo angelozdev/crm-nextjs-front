@@ -15,6 +15,7 @@ export const GET_USER_LOGGED = gql`
     getUserLogged {
       first_name
       last_name
+      email
     }
   }
 `
@@ -199,6 +200,32 @@ export const UPDATE_PRODUCT = gql`
       name
       price
       stock
+    }
+  }
+`
+
+export const GET_TOP_SELLERS = gql`
+  query getTopSellers {
+    getTopSellers {
+      seller {
+        first_name
+        email
+      }
+      total
+      totalOrders
+    }
+  }
+`
+
+export const GET_TOP_CLIENTS = gql`
+  query getTopClients {
+    getTopClients {
+      total
+      totalOrders
+      client {
+        first_name
+        email
+      }
     }
   }
 `
