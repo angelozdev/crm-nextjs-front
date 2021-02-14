@@ -39,16 +39,17 @@ function Sidebar() {
   // Conditionals
   if (loading) return <Spinner />
 
-  const { first_name, last_name } = data.getUserLogged
+  const { first_name, last_name, email } = data.getUserLogged
 
   return (
     <aside className="relative bg-white-100 dark:bg-black-900">
       <div className="flex flex-col sm:flex-row sm:justify-around">
-        <div className="w-72 lg:w-96 h-screen">
-          <div className="flex items-center justify-start mx-6 mt-10">
-            <h1 className="text-blue-800 ml-4 text-2xl font-bold">
+        <div className="sm:w-72 lg:w-96 sm:h-screen py-4">
+          <div className="mx-10 mt-10">
+            <h1 className="text-blue-800  text-2xl font-bold">
               Hello, {first_name} {last_name}!
             </h1>
+            <p className="text-gray-500">{email}</p>
           </div>
           <nav className="mt-10 px-6 ">
             <p className="text-gray-400 dark:text-gray-600 dark:border-gray-600 ml-2 w-full border-b pb-2 border-gray-400 mb-4 text-md font-normal">

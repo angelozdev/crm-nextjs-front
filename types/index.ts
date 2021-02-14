@@ -72,6 +72,14 @@ export interface TopSeller {
   seller: User[]
   total: number
   totalOrders: number
+  _id: string
+}
+
+export interface TopClient {
+  client: Client[]
+  total: number
+  totalOrders: number
+  _id: string
 }
 
 /* TYPES */
@@ -82,3 +90,4 @@ export type GetMyOrders = {
 }
 
 export type GetTopSellers = { getTopSellers: TopSeller[] }
+export type GetTopClients = { getTopClients: TopClient[] }

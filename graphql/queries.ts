@@ -15,6 +15,7 @@ export const GET_USER_LOGGED = gql`
     getUserLogged {
       first_name
       last_name
+      email
     }
   }
 `
@@ -208,11 +209,23 @@ export const GET_TOP_SELLERS = gql`
     getTopSellers {
       seller {
         first_name
-        last_name
         email
       }
       total
       totalOrders
+    }
+  }
+`
+
+export const GET_TOP_CLIENTS = gql`
+  query getTopClients {
+    getTopClients {
+      total
+      totalOrders
+      client {
+        first_name
+        email
+      }
     }
   }
 `

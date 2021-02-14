@@ -27,7 +27,7 @@ function Layout({ children }: Props): JSX.Element {
     )
   } else {
     content = (
-      <div className="flex">
+      <div className="sm:flex">
         <Sidebar />
         <main className="bg-white w-full dark:bg-black-800">
           {/* <Header /> */}
