@@ -1,7 +1,11 @@
-import React from "react";
+import Layout from '@components/Layout'
 
 const me = () => {
-  return <div>Angelo Zambrano</div>;
-};
+  return (
+    <Layout>
+      <h1 className="text-2xl">Angelo</h1>
+    </Layout>
+  )
+}
 
-export default me;
+export default me
